@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy WAR app to Azure Web App - owodokan
+name: Build and deploy JAR app to Azure Web App - owodokan
 
 on:
   push:
@@ -28,5 +28,5 @@ jobs:
       with:
         app-name: 'owodokan'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_8d879721fd174dc3915d2356e3243a6c }}
-        package: '${{ github.workspace }}/target/*.war'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_dbd07e41a3fa4e8c94d9f78622d53afd }}
+        package: '${{ github.workspace }}/target/*.jar'
