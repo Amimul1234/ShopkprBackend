@@ -16,7 +16,7 @@ import java.util.List;
 @Table
 public class SubCategoryEntity{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long sub_category_id;
     @Column(nullable = false)
     private String sub_category_name;
