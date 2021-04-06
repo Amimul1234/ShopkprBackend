@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.elasticsearch.annotations.Document;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -15,6 +17,7 @@ import java.io.Serializable;
 @Setter
 @Entity
 @Table(indexes = { @Index(name = "productIndex", columnList = "productCategoryId, productSubCategoryId")})
+@Document(indexName = "shopKPR", shards = 2)
 public class OwoProduct implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
