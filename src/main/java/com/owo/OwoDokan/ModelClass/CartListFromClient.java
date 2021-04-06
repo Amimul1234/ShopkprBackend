@@ -1,6 +1,6 @@
 package com.owo.OwoDokan.ModelClass;
 
-import com.owo.OwoDokan.entity.admin_related.cart.CartListProduct;
+import com.owo.OwoDokan.entity.cart.CartListProduct;
 import java.io.Serializable;
 
 public class CartListFromClient implements Serializable {
