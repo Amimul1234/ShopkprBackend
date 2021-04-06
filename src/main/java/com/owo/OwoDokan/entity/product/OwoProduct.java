@@ -17,7 +17,6 @@ import java.io.Serializable;
 @Setter
 @Entity
 @Table(indexes = { @Index(name = "productIndex", columnList = "productCategoryId, productSubCategoryId")})
-@Document(indexName = "shopKPR", shards = 2)
 public class OwoProduct implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
