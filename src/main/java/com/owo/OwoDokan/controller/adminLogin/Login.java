@@ -1,6 +1,7 @@
 package com.owo.OwoDokan.controller.adminLogin;
 
 import com.owo.OwoDokan.entity.admin.AdminLogin;
+import com.owo.OwoDokan.entity.admin.AdminLoginWrapper;
 import com.owo.OwoDokan.entity.admin.AdminPermissions;
 import com.owo.OwoDokan.service.adminLogin.AdminLoginService;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +18,15 @@ public class Login {
     }
 
     @PostMapping("/addAnAdmin")
-    public void addAnAdmin(@RequestBody AdminLogin adminLogin)
+    public void addAnAdmin( @RequestBody AdminLoginWrapper adminLoginWrapper)
     {
+        AdminLogin adminLogin = adminLoginWrapper.getAdminLogin();
+
+        for(int i=0; i<adminLoginWrapper.getAdminPermissionsList().size(); i++)
+            adminLoginWrapper.getAdminPermissionsList().get(i).setAdminLogin(adminLogin);
+
+        adminLogin.setAdminPermissionsList(adminLoginWrapper.getAdminPermissionsList());
+
         adminLoginService.addAnAdmin(adminLogin);
     }
 
