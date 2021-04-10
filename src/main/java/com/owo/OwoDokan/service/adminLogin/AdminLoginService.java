@@ -38,14 +38,20 @@ public class AdminLoginService {
         }
     }
 
-    public AdminLogin getAdminInfo( String adminEmailAddress ) {
-        try
+    public AdminLoginWrapper getAdminInfo( String adminEmailAddress ) {
+        Optional<AdminLogin> adminLoginOptional = adminLoginRepository.findByAdminEmailAddress(adminEmailAddress);
+
+        if(adminLoginOptional.isPresent())
         {
-            return adminLoginRepository.findByAdminEmailAddress(adminEmailAddress);
-        }catch (Exception e)
+            AdminLogin adminLogin = adminLoginOptional.get();
+            List<AdminPermissions> adminPermissionsList = adminLogin.getAdminPermissionsList();
+
+            return new AdminLoginWrapper(adminLogin, adminPermissionsList);
+        }
+        else
         {
-            log.error("Error is:- " + e.getMessage());
-            throw new RuntimeException("Admin Credential fetching error");
+            log.error("Admin credential does not exists");
+            throw new RuntimeException("Admin Credential does not exists");
         }
     }
 

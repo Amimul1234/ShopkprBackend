@@ -24,7 +24,7 @@ public class Login {
     }
 
     @GetMapping("/getAdminInfo")
-    public AdminLogin getAdminCredential(@RequestParam(name = "adminEmailAddress") String adminEmailAddress)
+    public AdminLoginWrapper getAdminCredential(@RequestParam(name = "adminEmailAddress") String adminEmailAddress)
     {
         return adminLoginService.getAdminInfo(adminEmailAddress);
     }
