@@ -1,6 +1,7 @@
 package com.owo.OwoDokan.service.adminLogin;
 
 import com.owo.OwoDokan.entity.admin.AdminLogin;
+import com.owo.OwoDokan.entity.admin.AdminLoginWrapper;
 import com.owo.OwoDokan.entity.admin.AdminPermissions;
 import com.owo.OwoDokan.repository.admin.adminLogin.AdminLoginRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -8,8 +9,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@Service
 @Slf4j
+@Service
 public class AdminLoginService {
 
     private final AdminLoginRepository adminLoginRepository;
@@ -18,7 +19,15 @@ public class AdminLoginService {
         this.adminLoginRepository = adminLoginRepository;
     }
 
-    public void addAnAdmin( AdminLogin adminLogin) {
+    public void addAnAdmin( AdminLoginWrapper adminLoginWrapper) {
+
+        AdminLogin adminLogin = adminLoginWrapper.getAdminLogin();
+
+        for(int i=0; i<adminLoginWrapper.getAdminPermissionsList().size(); i++)
+            adminLoginWrapper.getAdminPermissionsList().get(i).setAdminLogin(adminLogin);
+
+        adminLogin.setAdminPermissionsList(adminLoginWrapper.getAdminPermissionsList());
+
         try
         {
             adminLoginRepository.save(adminLogin);
@@ -40,31 +49,6 @@ public class AdminLoginService {
         }
     }
 
-    public void updateAdminPermissions( Integer adminId, List<AdminPermissions> adminPermissionsList ) {
-        try
-        {
-            Optional<AdminLogin> adminLoginOptional = adminLoginRepository.findById(adminId);
-
-            if(adminLoginOptional.isPresent())
-            {
-                AdminLogin adminLogin = adminLoginOptional.get();
-
-                adminLogin.setAdminPermissionsList(adminPermissionsList);
-
-                adminLoginRepository.save(adminLogin);
-            }
-            else
-            {
-                log.info("Wrong admin id provided");
-                throw new RuntimeException("Admin does not exists");
-            }
-        }catch (Exception e)
-        {
-            log.error("Can not fetch admin data from database, Error is: "+e.getMessage());
-            throw new RuntimeException("Admin data can not be fetched");
-        }
-    }
-
     public void deleteAdmin( Integer adminId ) {
         try {
             adminLoginRepository.deleteById(adminId);
@@ -78,5 +62,61 @@ public class AdminLoginService {
 
     public List<AdminLogin> getAllAdminInfo() {
         return adminLoginRepository.findAll();
+    }
+
+    public List<AdminPermissions> getAdminAllPermissions( Integer adminId ) {
+        try
+        {
+            Optional<AdminLogin> adminLoginOptional = adminLoginRepository.findById(adminId);
+
+            if(adminLoginOptional.isPresent())
+            {
+                AdminLogin adminLogin = adminLoginOptional.get();
+                return adminLogin.getAdminPermissionsList();
+            }
+            else
+            {
+                log.info("Wrong admin id provided");
+                throw new RuntimeException("Admin does not exists");
+            }
+        }catch (Exception e)
+        {
+            log.error("Can not fetch admin data from database, Error is: "+e.getMessage());
+            throw new RuntimeException("Admin data can not be fetched");
+        }
+    }
+
+    public void updateAdminPermissions( AdminLoginWrapper adminLoginWrapper )
+    {
+        try
+        {
+            Optional<AdminLogin> adminLoginOptional = adminLoginRepository.findById(
+                    adminLoginWrapper.getAdminLogin().getAdminId());
+
+            if(adminLoginOptional.isPresent())
+            {
+                AdminLogin adminLogin = adminLoginOptional.get();
+
+                for(int i=0; i<adminLoginWrapper.getAdminPermissionsList().size(); i++)
+                    adminLoginWrapper.getAdminPermissionsList().get(i).setAdminLogin(adminLogin);
+
+                adminLogin.getAdminPermissionsList().clear();
+                adminLogin.getAdminPermissionsList().addAll(adminLoginWrapper.getAdminPermissionsList());
+
+                adminLogin.setAdminName(adminLoginWrapper.getAdminLogin().getAdminName());
+                adminLogin.setAdminEmailAddress(adminLoginWrapper.getAdminLogin().getAdminEmailAddress());
+
+                adminLoginRepository.save(adminLogin);
+            }
+            else
+            {
+                log.info("Wrong admin id provided");
+                throw new RuntimeException("Admin does not exists");
+            }
+        }catch (Exception e)
+        {
+            log.error("Can not fetch admin data from database, Error is: "+e.getMessage());
+            throw new RuntimeException("Admin data can not be fetched");
+        }
     }
 }

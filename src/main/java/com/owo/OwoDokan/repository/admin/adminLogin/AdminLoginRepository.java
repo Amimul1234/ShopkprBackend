@@ -6,6 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AdminLoginRepository extends JpaRepository<com.owo.OwoDokan.entity.admin.AdminLogin, Integer> {
-
     AdminLogin findByAdminEmailAddress( String adminEmailAddress );
 }

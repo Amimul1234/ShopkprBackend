@@ -20,14 +20,7 @@ public class Login {
     @PostMapping("/addAnAdmin")
     public void addAnAdmin( @RequestBody AdminLoginWrapper adminLoginWrapper)
     {
-        AdminLogin adminLogin = adminLoginWrapper.getAdminLogin();
-
-        for(int i=0; i<adminLoginWrapper.getAdminPermissionsList().size(); i++)
-            adminLoginWrapper.getAdminPermissionsList().get(i).setAdminLogin(adminLogin);
-
-        adminLogin.setAdminPermissionsList(adminLoginWrapper.getAdminPermissionsList());
-
-        adminLoginService.addAnAdmin(adminLogin);
+        adminLoginService.addAnAdmin(adminLoginWrapper);
     }
 
     @GetMapping("/getAdminInfo")
@@ -43,10 +36,15 @@ public class Login {
     }
 
     @PutMapping("/updateAdminPermission")
-    public void updateAdminPermissions(@RequestParam(name = "adminId") Integer adminId,
-                                        @RequestBody List<AdminPermissions> adminPermissionsList)
+    public void updateAdminPermissions(@RequestBody AdminLoginWrapper adminLoginWrapper)
     {
-        adminLoginService.updateAdminPermissions(adminId, adminPermissionsList);
+        adminLoginService.updateAdminPermissions(adminLoginWrapper);
+    }
+
+    @GetMapping("/getAdminPermissions")
+    public List<AdminPermissions> getAdminAllPermissions(@RequestParam(name = "adminId") Integer adminId)
+    {
+        return adminLoginService.getAdminAllPermissions(adminId);
     }
 
     @DeleteMapping("/deleteAdmin")
