@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -58,10 +57,14 @@ public class PushNotificationService {
 
 
     private Map<String, String> getSamplePayloadData() {
-        Map<String, String> pushData = new HashMap<>();
-        pushData.put("messageId", defaults.get("payloadMessageId"));
-        pushData.put("data", defaults.get("payloadData") + " " + LocalDateTime.now());
-        return pushData;
+
+        Map<String, String> data = new HashMap<>();
+
+        data.put("title", "Hey");
+        data.put("content", "Hello I am Amimul Ehsan Rahi");
+        data.put("imageUrl", "http://h5.4j.com/thumb/Ninja-Run.jpg");
+
+        return data;
     }
 
 
@@ -69,7 +72,6 @@ public class PushNotificationService {
         return new PushNotificationRequest(defaults.get("title"),
                 defaults.get("message"),
                 defaults.get("topic"));
-
     }
 
 
