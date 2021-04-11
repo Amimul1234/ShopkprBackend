@@ -4,7 +4,6 @@ import com.owo.OwoDokan.ModelClass.pushNotification.PushNotificationRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -24,7 +23,6 @@ public class PushNotificationService {
         this.fcmService = fcmService;
     }
 
-    @Scheduled(initialDelay = 60000, fixedDelay = 60000)
     public void sendSamplePushNotification() {
         try {
             fcmService.sendMessageWithoutData(getSamplePushNotificationRequest());
@@ -62,16 +60,16 @@ public class PushNotificationService {
     private Map<String, String> getSamplePayloadData() {
         Map<String, String> pushData = new HashMap<>();
         pushData.put("messageId", defaults.get("payloadMessageId"));
-        pushData.put("text", defaults.get("payloadData") + " " + LocalDateTime.now());
+        pushData.put("data", defaults.get("payloadData") + " " + LocalDateTime.now());
         return pushData;
     }
 
 
     private PushNotificationRequest getSamplePushNotificationRequest() {
-        PushNotificationRequest request = new PushNotificationRequest(defaults.get("title"),
+        return new PushNotificationRequest(defaults.get("title"),
                 defaults.get("message"),
                 defaults.get("topic"));
-        return request;
+
     }
 
 
