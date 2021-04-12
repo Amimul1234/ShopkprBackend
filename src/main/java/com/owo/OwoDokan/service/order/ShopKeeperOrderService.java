@@ -11,16 +11,15 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import java.util.Optional;
 
 @Service
-public class Shop_keeper_order_service {
+public class ShopKeeperOrderService {
     private final Order_repo order_repo;
     private final CartRepo cartRepo;
     private final ShopRepository shopRepository;
 
-    public Shop_keeper_order_service(Order_repo order_repo, CartRepo cartRepo, ShopRepository shopRepository) {
+    public ShopKeeperOrderService( Order_repo order_repo, CartRepo cartRepo, ShopRepository shopRepository) {
         this.order_repo = order_repo;
         this.cartRepo = cartRepo;
         this.shopRepository = shopRepository;

@@ -11,7 +11,7 @@ import com.owo.OwoDokan.service.brand.BrandsService;
 import com.owo.OwoDokan.service.product.ProductService;
 import com.owo.OwoDokan.service.cart.Shop_keeper_cart_service;
 import com.owo.OwoDokan.service.category.CategoryService;
-import com.owo.OwoDokan.service.order.Shop_keeper_order_service;
+import com.owo.OwoDokan.service.order.ShopKeeperOrderService;
 import com.owo.OwoDokan.service.shopKeeper.registration.RegistrationService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -25,11 +25,11 @@ public class ShopKeeperRestController {
     private final ProductService productService;
     private final BrandsService brandsService;
     private final Shop_keeper_cart_service shop_keeper_cartService;
-    private final Shop_keeper_order_service shop_keeper_orderService;
+    private final ShopKeeperOrderService shop_keeper_orderService;
     private final RegistrationService registrationService;
     private final CategoryService categoryService;
 
-    public ShopKeeperRestController(ProductService productService, BrandsService brandsService, Shop_keeper_cart_service shop_keeper_cartService, Shop_keeper_order_service shop_keeper_orderService, RegistrationService registrationService, CategoryService categoryService) {
+    public ShopKeeperRestController( ProductService productService, BrandsService brandsService, Shop_keeper_cart_service shop_keeper_cartService, ShopKeeperOrderService shop_keeper_orderService, RegistrationService registrationService, CategoryService categoryService) {
         this.productService = productService;
         this.brandsService = brandsService;
         this.shop_keeper_cartService = shop_keeper_cartService;

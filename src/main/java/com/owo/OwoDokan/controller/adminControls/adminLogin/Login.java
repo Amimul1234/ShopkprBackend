@@ -1,4 +1,4 @@
-package com.owo.OwoDokan.controller.adminLogin;
+package com.owo.OwoDokan.controller.adminControls.adminLogin;
 
 import com.owo.OwoDokan.entity.admin.AdminLogin;
 import com.owo.OwoDokan.entity.admin.AdminLoginWrapper;
