@@ -6,7 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-public class CategoryManagement {
+public class CategoryManagement
+{
     private final CategoryService categoryService;
 
     public CategoryManagement( CategoryService categoryService ) {
