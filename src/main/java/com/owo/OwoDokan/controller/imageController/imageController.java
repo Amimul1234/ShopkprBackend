@@ -1,14 +1,19 @@
 package com.owo.OwoDokan.controller.imageController;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.*;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.ServletContext;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
@@ -16,7 +21,8 @@ import java.util.UUID;
 
 @Slf4j
 @RestController
-public class imageController {
+public class imageController
+{
     //This method is for saving upcoming image in filesystem
     @PostMapping("/imageController/{directory}")
     public ResponseEntity saveImageInProject(@PathVariable("directory") String directory,
@@ -48,34 +54,21 @@ public class imageController {
     }
 
     @GetMapping(value = "/getImageFromServer", produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity sendImageToClient(@RequestParam(name = "path_of_image") String path_of_image)
+    public ResponseEntity<byte[]> sendImageToClient(@RequestParam(name = "path_of_image") String path_of_image)
     {
-
-        byte[] requested_image;
-
-        try {
-            File file = new File(path_of_image);//This is for determining byte array size
-            requested_image = new byte[(int) file.length()];
-
-            FileInputStream fileInputStream = new FileInputStream(file.getPath());
-            fileInputStream.read(requested_image, 0, requested_image.length);
-            fileInputStream.close();
-
-
-            return ResponseEntity
-                    .ok()
-                    .contentLength(requested_image.length)
-                    .body(requested_image);
-
+        File file = new File(path_of_image);
+        try
+        {
+            byte[] requested_image = IOUtils.toByteArray(new FileInputStream(file));
+            return new ResponseEntity<>(requested_image, HttpStatus.OK);
         } catch (IOException e) {
-            return ResponseEntity
-                    .status(HttpStatus.FAILED_DEPENDENCY)
-                    .body("No such image");
+            e.printStackTrace();
+            throw new RuntimeException("Image not found");
         }
     }
 
     @DeleteMapping("/getImageFromServer")
-    public ResponseEntity deleteImage(@RequestParam(name = "path_of_image") String path_of_image)
+    public ResponseEntity<String> deleteImage(@RequestParam(name = "path_of_image") String path_of_image)
     {
         File file = new File(path_of_image);
 
