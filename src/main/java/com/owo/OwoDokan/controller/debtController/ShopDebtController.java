@@ -1,8 +1,9 @@
-package com.owo.OwoDokan.controller.shopKeeper;
+package com.owo.OwoDokan.controller.debtController;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
+import com.owo.OwoDokan.ModelClass.debt.DebtDashBoardResponse;
 import com.owo.OwoDokan.entity.shops.shopsData.UserDebts;
 import com.owo.OwoDokan.entity.shops.shopsData.User_debt_details;
 import com.owo.OwoDokan.service.shopKeeper.Debt.ShopUserDebtService;
@@ -26,18 +27,24 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 @RestController
-public class ShopUserController {
+public class ShopDebtController {
 
     private final ShopUserDebtService shopUserDebtService;
 
-    public ShopUserController(ShopUserDebtService shopUserDebtService) {
+    public ShopDebtController( ShopUserDebtService shopUserDebtService) {
         this.shopUserDebtService = shopUserDebtService;
     }
 
     @PostMapping("/addUserDebt") //this is the first time when shop keeper will add user to debt list
-    public ResponseEntity addUserDebt(@RequestBody UserDebts userDebts, @RequestParam(name = "shop_mobile_number") String shop_mobile_number)
+    public ResponseEntity<String> addUserDebt(@RequestBody UserDebts userDebts, @RequestParam(name = "shop_mobile_number") String shop_mobile_number)
     {
         return shopUserDebtService.addDebt(userDebts, shop_mobile_number);
+    }
+
+    @GetMapping("/getDebtDashBoardEntries")
+    public DebtDashBoardResponse getDebtDashBoardEntries(@RequestParam("mobileNumber") String mobileNumber)
+    {
+        return shopUserDebtService.getDebtDashBoardEntries(mobileNumber);
     }
 
     @GetMapping("/getUserDebtLists")
@@ -46,14 +53,15 @@ public class ShopUserController {
         return shopUserDebtService.getAllDebts(page, shop_mobile_number);
     }
 
-    @PostMapping("/addAdebtDetails") //This is for adding debt details of an existing user
-    public ResponseEntity addAdebtDetails(@RequestBody User_debt_details user_debt_details, @RequestParam(name = "user_id") Long user_id)
+    @PostMapping("/addAdebtDetails")
+    public ResponseEntity<String> addAdebtDetails(@RequestBody User_debt_details user_debt_details,
+                                                  @RequestParam(name = "user_id") Long user_id)
     {
         return shopUserDebtService.addDebtDetails(user_debt_details, user_id);
     }
 
     @DeleteMapping("/deleteAdebtDetails")
-    public ResponseEntity deleteAdebtDetails(@RequestParam(name = "id_of_debt_details") long id_of_debt_details, @RequestParam(name = "user_id") long user_id)
+    public ResponseEntity<String> deleteAdebtDetails(@RequestParam(name = "id_of_debt_details") long id_of_debt_details, @RequestParam(name = "user_id") long user_id)
     {
         return shopUserDebtService.deleteAdebtDetails(id_of_debt_details, user_id);
     }

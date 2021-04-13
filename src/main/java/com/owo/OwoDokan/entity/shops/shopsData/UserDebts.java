@@ -2,8 +2,6 @@ package com.owo.OwoDokan.entity.shops.shopsData;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.owo.OwoDokan.entity.shops.shopsData.Shops;
-import com.owo.OwoDokan.entity.shops.shopsData.User_debt_details;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,11 +18,11 @@ import java.util.List;
 public class UserDebts implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long user_id;
-
-    private String user_name;
-    private String user_mobile_number;
-    private double user_total_debt;
+    private long userId;
+    private String userName;
+    private String userMobileNumber;
+    private double userTotalDebt;
+    private double userPaid;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH
             , CascadeType.REFRESH})

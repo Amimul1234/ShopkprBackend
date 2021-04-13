@@ -1,10 +1,12 @@
 package com.owo.OwoDokan.service.shopKeeper.Debt;
 
+import com.owo.OwoDokan.ModelClass.debt.DebtDashBoardResponse;
 import com.owo.OwoDokan.entity.shops.shopsData.Shops;
 import com.owo.OwoDokan.entity.shops.shopsData.UserDebts;
 import com.owo.OwoDokan.entity.shops.shopsData.User_debt_details;
 import com.owo.OwoDokan.repository.admin.ShopRepository;
 import com.owo.OwoDokan.repository.shop.shopUserRepo.UserDebt;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -13,16 +15,18 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class ShopUserDebtService {
-    private final UserDebt userDebt;
+
+    private final UserDebt userDebtRepository;
     private final ShopRepository shopRepository;
 
-    public ShopUserDebtService(UserDebt userDebt, ShopRepository shopRepository) {
-        this.userDebt = userDebt;
+    public ShopUserDebtService( UserDebt userDebtRepository, ShopRepository shopRepository) {
+        this.userDebtRepository = userDebtRepository;
         this.shopRepository = shopRepository;
     }
 
-    public ResponseEntity addDebt(UserDebts userDebts, String shop_mobile_number) {
+    public ResponseEntity<String> addDebt(UserDebts userDebts, String shop_mobile_number) {
 
         Optional<Shops> shopsOptional = shopRepository.getByPhone(shop_mobile_number);
 
@@ -34,16 +38,17 @@ public class ShopUserDebtService {
 
             for(UserDebts userDebts2 : userDebts1)
             {
-                if(userDebts2.getUser_mobile_number().equals(userDebts.getUser_mobile_number()))
+                if(userDebts2.getUserMobileNumber().equals(userDebts.getUserMobileNumber()))
                 {
-                    return new ResponseEntity(HttpStatus.CONFLICT);
+                    return new ResponseEntity<> ("User Record Already exists", HttpStatus.CONFLICT);
                 }
             }
 
             shops.getUserDebts().add(userDebts);
             userDebts.setShops(shops);
             shopRepository.save(shops);
-            return new ResponseEntity(HttpStatus.OK);
+
+            return new ResponseEntity<>("User Successfully Added", HttpStatus.OK);
         }
         else
         {
@@ -51,53 +56,54 @@ public class ShopUserDebtService {
         }
     }
 
-    public ResponseEntity addDebtDetails(User_debt_details user_debt_details, Long user_id) {
+    public ResponseEntity<String> addDebtDetails(User_debt_details user_debt_details, Long user_id) {
 
         UserDebts userDebts1;
 
         try {
-            userDebts1 = userDebt.findByUserId(user_id);
+            userDebts1 = userDebtRepository.findByUserId(user_id);
         }catch (Exception e)
         {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Debt record not found", HttpStatus.NOT_FOUND);
         }
 
         user_debt_details.setUserDebts(userDebts1);
 
-        double debt = userDebts1.getUser_total_debt();
+        double debt = userDebts1.getUserTotalDebt();
 
         debt = debt + user_debt_details.getTaka();
 
-        userDebts1.setUser_total_debt(debt);
+        userDebts1.setUserTotalDebt(debt);
 
         userDebts1.getUserDebtDetails().add(user_debt_details);
 
         try {
-            userDebt.save(userDebts1);
-            return new ResponseEntity(HttpStatus.CREATED);
+            userDebtRepository.save(userDebts1);
+            return new ResponseEntity<>("Debt record added", HttpStatus.CREATED);
         }catch (Exception e)
         {
-            return new ResponseEntity(HttpStatus.FAILED_DEPENDENCY);
+            log.error("Error occurred, Error is: "+e.getMessage());
+            return new ResponseEntity<>("Can not add record", HttpStatus.FAILED_DEPENDENCY);
         }
 
     }
 
-    public ResponseEntity deleteAdebtDetails(long id_of_debt_details, long user_id) {
+    public ResponseEntity<String> deleteAdebtDetails(long id_of_debt_details, long user_id) {
 
         UserDebts userDebts1;
 
         try
         {
-            userDebts1 = userDebt.findByUserId(user_id);
+            userDebts1 = userDebtRepository.findByUserId(user_id);
 
         }catch (Exception e)
         {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Can not find user debt record", HttpStatus.NOT_FOUND);
         }
 
         List<User_debt_details> userDebtDetailsList = new ArrayList<>(userDebts1.getUserDebtDetails());
 
-        double debt = userDebts1.getUser_total_debt();
+        double debt = userDebts1.getUserTotalDebt();
 
         for(User_debt_details user_debt_details : userDebtDetailsList)
         {
@@ -109,17 +115,17 @@ public class ShopUserDebtService {
             }
         }
 
-        userDebts1.setUser_total_debt(debt);
+        userDebts1.setUserTotalDebt(debt);
         userDebts1.getUserDebtDetails().clear();
         userDebts1.getUserDebtDetails().addAll(userDebtDetailsList);
 
         try
         {
-            userDebt.save(userDebts1);
-            return new ResponseEntity(HttpStatus.OK);
+            userDebtRepository.save(userDebts1);
+            return new ResponseEntity<>("Debt data saved successfully", HttpStatus.OK);
         }catch (Exception e)
         {
-            return new ResponseEntity(HttpStatus.FAILED_DEPENDENCY);
+            return new ResponseEntity<>("Can not save debt data", HttpStatus.FAILED_DEPENDENCY);
         }
 
     }
@@ -130,7 +136,7 @@ public class ShopUserDebtService {
 
         try
         {
-            userDebts1 = userDebt.findByUserId(user_id);
+            userDebts1 = userDebtRepository.findByUserId(user_id);
 
             return new ResponseEntity<>(userDebts1, HttpStatus.OK);
 
@@ -145,7 +151,7 @@ public class ShopUserDebtService {
 
         try
         {
-            userDebts1 = userDebt.findByUserId(user_id);
+            userDebts1 = userDebtRepository.findByUserId(user_id);
 
             if(userDebts1.getUserDebtDetails().size() > 0)
             {
@@ -169,7 +175,7 @@ public class ShopUserDebtService {
 
         try
         {
-            userDebts1 = userDebt.findByUserId(user_id);
+            userDebts1 = userDebtRepository.findByUserId(user_id);
             return userDebts1.getUserDebtDetails();
         }catch (Exception e)
         {
@@ -179,7 +185,7 @@ public class ShopUserDebtService {
     }
 
     public String getCustomerName(Long user_id) {
-        return userDebt.findByUserId(user_id).getUser_name();
+        return userDebtRepository.findByUserId(user_id).getUserName();
     }
 
     public ResponseEntity updateAdebtDetails(User_debt_details user_debt_details, long user_id) {
@@ -189,19 +195,19 @@ public class ShopUserDebtService {
         double debt;
 
         try {
-            userDebts = userDebt.findByUserId(user_id);
+            userDebts = userDebtRepository.findByUserId(user_id);
 
             length = userDebts.getUserDebtDetails().size();
-            debt = userDebts.getUser_total_debt();
+            debt = userDebts.getUserTotalDebt();
 
             for(int i=0; i<length; i++)
             {
                 if(user_debt_details.getId() == userDebts.getUserDebtDetails().get(i).getId())
                 {
                     debt = debt - userDebts.getUserDebtDetails().get(i).getTaka() + user_debt_details.getTaka();
-                    userDebts.setUser_total_debt(debt);
+                    userDebts.setUserTotalDebt(debt);
                     userDebts.getUserDebtDetails().set(i, user_debt_details);
-                    userDebt.save(userDebts);
+                    userDebtRepository.save(userDebts);
                     return new ResponseEntity(HttpStatus.OK);
                 }
             }
@@ -220,11 +226,11 @@ public class ShopUserDebtService {
 
         try
         {
-            userDebts = userDebt.findByUserId(user_id);
+            userDebts = userDebtRepository.findByUserId(user_id);
 
             try
             {
-                userDebt.delete(userDebts);
+                userDebtRepository.delete(userDebts);
                 return new ResponseEntity(HttpStatus.OK);
             }catch (Exception e)
             {
@@ -262,6 +268,38 @@ public class ShopUserDebtService {
         else
         {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    public DebtDashBoardResponse getDebtDashBoardEntries(String mobileNumber)
+    {
+        Optional<Shops> shopsOptional = shopRepository.getByPhone(mobileNumber);
+
+        if(shopsOptional.isPresent())
+        {
+            Shops shops = shopsOptional.get();
+
+            List<UserDebts> userDebtsList = shops.getUserDebts();
+
+            double totalLoan = 0.0;
+            double totalPaid = 0.0;
+
+            for(UserDebts userDebts : userDebtsList)
+            {
+                totalLoan += userDebts.getUserTotalDebt();
+                totalPaid += userDebts.getUserPaid();
+            }
+
+            DebtDashBoardResponse debtDashBoardResponse = new DebtDashBoardResponse();
+            debtDashBoardResponse.setTotalPaid(totalPaid);
+            debtDashBoardResponse.setTotalLoan(totalLoan);
+
+            return debtDashBoardResponse;
+        }
+        else
+        {
+            log.error("Can not find shops with number: "+mobileNumber);
+            throw new RuntimeException("Shops does not exists");
         }
     }
 }

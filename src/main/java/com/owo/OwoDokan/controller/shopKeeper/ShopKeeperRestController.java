@@ -182,8 +182,5 @@ public class ShopKeeperRestController {
     {
         return productService.getProductByBrandDesc(page, product_brand, product_categories);
     }
-
-
-
      */
 }
