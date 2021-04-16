@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -133,6 +134,27 @@ public class SubCategoryService {
         {
             log.error("Can not find category");
             throw new CategoryNotFoundException(categoryId);
+        }
+    }
+
+    public List<String> getALlSubCategories( Long categoryId )
+    {
+        Optional<CategoryEntity> categoryEntityOptional = categoryRepo.findById(categoryId);
+
+        if(categoryEntityOptional.isPresent())
+        {
+            CategoryEntity categoryEntity = categoryEntityOptional.get();
+
+            List<String> subCategoryNames = new ArrayList<>();
+
+            categoryEntity.getSubCategoryEntities().forEach(v -> subCategoryNames.add(v.getSub_category_name()));
+
+            return subCategoryNames;
+        }
+        else
+        {
+            log.error("Category with id: " + categoryId + " does not exists");
+            throw new RuntimeException("Category with id: " + categoryId + " does not exists");
         }
     }
 }

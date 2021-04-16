@@ -302,4 +302,22 @@ public class ShopUserDebtService {
             throw new RuntimeException("Shops does not exists");
         }
     }
+
+    public ResponseEntity<String> addPaidAmount( Long userId, Double userPaidAmount)
+    {
+        Optional<UserDebts> userDebtsOptional = userDebtRepository.findById(userId);
+
+        if(userDebtsOptional.isPresent())
+        {
+            UserDebts userDebts = userDebtsOptional.get();
+            userDebts.setUserPaid(userPaidAmount);
+
+            userDebtRepository.save(userDebts);
+
+            return new ResponseEntity<>("Paid amount added successfully", HttpStatus.OK);
+        }
+        else {
+            throw new RuntimeException("User with id:- "+userId + " does not exists");
+        }
+    }
 }

@@ -3,7 +3,6 @@ package com.owo.OwoDokan.controller.adminControls.productManagement;
 import com.owo.OwoDokan.entity.product.OwoProduct;
 import com.owo.OwoDokan.service.product.ProductService;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -56,6 +55,21 @@ public class ProductManagement
                                                 @RequestParam(name = "product_name") String product_name)
     {
         return productService.searchProductAdmin(page, product_name);
+    }
+
+    @GetMapping("/searchProduct")
+    public List<OwoProduct> searchProduct(@RequestParam("page") int page, @RequestParam("subCategories") List<String> subCategories,
+                                          @RequestParam("product_name") String product_name)
+    {
+        return productService.searchProductViaSubCategories(page, subCategories, product_name);
+    }
+
+
+    @GetMapping("/searchProductDesc")
+    public List<OwoProduct> searchProductDesc(@RequestParam("page") int page, @RequestParam("subCategories") List<String> subCategories,
+                                          @RequestParam("product_name") String product_name)
+    {
+        return productService.searchProductViaSubCategoriesDesc(page, subCategories, product_name);
     }
 
 }

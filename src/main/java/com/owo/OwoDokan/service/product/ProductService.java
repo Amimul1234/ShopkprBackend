@@ -254,6 +254,63 @@ public class ProductService {
         }
     }
 
+    public List<OwoProduct> searchProductViaSubCategories( int page, List<String> subCategories, String product_name )
+    {
+        int pageSize = 10; //products per page
+        org.springframework.data.domain.Pageable pageable = PageRequest.of(page, pageSize);
+
+        Optional<List<OwoProduct>> optionalOwoProductList;
+
+
+        if(product_name.isEmpty())
+        {
+            optionalOwoProductList=
+                    productRepository.findProductBySubCategoriesEmpty(subCategories, pageable);
+        }
+        else {
+            optionalOwoProductList=
+                    productRepository.findProductBySubCategories(product_name + "*", subCategories, pageable);
+        }
+
+
+        if(optionalOwoProductList.isPresent())
+        {
+            return optionalOwoProductList.get();
+        }
+        else {
+            log.error("No more product found");
+            throw new RuntimeException("No more product found");
+        }
+    }
+
+    public List<OwoProduct> searchProductViaSubCategoriesDesc( int page, List<String> subCategories, String product_name )
+    {
+        int pageSize = 10; //products per page
+        org.springframework.data.domain.Pageable pageable = PageRequest.of(page, pageSize);
+
+        Optional<List<OwoProduct>> optionalOwoProductList;
+
+        if(product_name.isEmpty())
+        {
+            optionalOwoProductList=
+                    productRepository.findProductBySubCategoriesEmptyDesc(subCategories, pageable);
+        }
+        else {
+            optionalOwoProductList=
+                    productRepository.findProductBySubCategoriesDesc(product_name + "*", subCategories, pageable);
+        }
+
+
+        if(optionalOwoProductList.isPresent())
+        {
+            return optionalOwoProductList.get();
+        }
+        else {
+            log.error("No more product found");
+            throw new RuntimeException("No more product found");
+        }
+    }
+
     /*
     public ResponseEntity searchProduct(int page, String[] categories, String name) {
 

@@ -41,6 +41,12 @@ public class ShopDebtController {
         return shopUserDebtService.addDebt(userDebts, shop_mobile_number);
     }
 
+    @PostMapping("/addPaidAmountForAnUser")
+    public ResponseEntity<String> addPaidAmountForAnUser(@RequestParam("userId") Long userId, @RequestParam("paidAmount") Double userPaidAmount)
+    {
+        return shopUserDebtService.addPaidAmount(userId, userPaidAmount);
+    }
+
     @GetMapping("/getDebtDashBoardEntries")
     public DebtDashBoardResponse getDebtDashBoardEntries(@RequestParam("mobileNumber") String mobileNumber)
     {

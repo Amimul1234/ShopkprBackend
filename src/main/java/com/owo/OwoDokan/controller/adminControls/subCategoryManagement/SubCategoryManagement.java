@@ -14,6 +14,12 @@ public class SubCategoryManagement
         this.subCategoryService = subCategoryService;
     }
 
+    @GetMapping("/getAllSubCategoriesForCategory")
+    public List<String> getAllSubCategoriesForCategory(@RequestParam("categoryId") Long categoryId)
+    {
+        return subCategoryService.getALlSubCategories(categoryId);
+    }
+
     @PostMapping("/addNewSubCategory")
     public String addNewSubCategory( @RequestParam(name = "categoryId") Long categoryId, @RequestBody SubCategoryEntity subCategoryEntity)
     {
