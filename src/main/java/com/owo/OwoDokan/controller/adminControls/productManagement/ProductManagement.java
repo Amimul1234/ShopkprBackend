@@ -72,4 +72,11 @@ public class ProductManagement
         return productService.searchProductViaSubCategoriesDesc(page, subCategories, product_name);
     }
 
+    @GetMapping("/sortProductAlphabetically")
+    public List<OwoProduct> sortProductAlphabetically(@RequestParam("page") int page, @RequestParam("subCategories") List<String> subCategories,
+                                                      @RequestParam("alphabet") String alphabet)
+    {
+        return productService.sortAlphabetically(page, subCategories, alphabet);
+    }
+
 }
