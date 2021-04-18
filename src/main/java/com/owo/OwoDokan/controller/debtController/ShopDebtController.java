@@ -143,7 +143,7 @@ public class ShopDebtController {
             totalLoan += user_debt_details.get(i).getTaka();
         }
 
-        table.addCell(createCell("Total Loan", 1, 3, Element.ALIGN_RIGHT));
+        table.addCell(createCell("Total Cost", 1, 3, Element.ALIGN_RIGHT));
         table.addCell(createCell(String.valueOf(totalLoan), 1, 1, Element.ALIGN_LEFT));
 
         Double paidAmount = shopUserDebtService.getPaidAmount(user_id);
