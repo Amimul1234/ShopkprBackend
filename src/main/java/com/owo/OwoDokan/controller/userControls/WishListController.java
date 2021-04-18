@@ -1,5 +1,6 @@
 package com.owo.OwoDokan.controller.userControls;
 
+import com.owo.OwoDokan.entity.product.OwoProduct;
 import com.owo.OwoDokan.service.wishList.WishListService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,5 +35,11 @@ public class WishListController
     public List<Long> getAllWishListProductsId(@RequestParam("user_id") Long userId)
     {
         return wishListService.getWishListProductIds(userId);
+    }
+
+    @GetMapping("/getAllWishListProducts")
+    public List<OwoProduct> wishListProducts(@RequestParam("user_id") Long user_id)
+    {
+        return wishListService.getProducts(user_id);
     }
 }
