@@ -328,4 +328,23 @@ public class ProductService {
             throw new RuntimeException("Product does not exists for alphabetical sort");
         }
     }
+
+    public List<OwoProduct> getSimilarProducts( Long product_sub_category_id )
+    {
+        Optional<List<OwoProduct>> optionalOwoProductList = productRepository.findProductsViaSubCategory(product_sub_category_id);
+
+        if(optionalOwoProductList.isPresent())
+        {
+            List<OwoProduct> owoProductList = optionalOwoProductList.get();
+
+            owoProductList.forEach(this::responseManipulator);
+
+            return owoProductList;
+        }
+        else
+        {
+            log.error("Product with sub_category_id : "+product_sub_category_id + " fetching failure");
+            throw new RuntimeException("Can not get products with sub_cat_id: " + product_sub_category_id);
+        }
+    }
 }

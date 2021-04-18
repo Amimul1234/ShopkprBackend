@@ -52,5 +52,8 @@ public interface ProductRepository extends JpaRepository<OwoProduct, Long> {
             " and s.product_name LIKE (:alphabet)", nativeQuery = true)
     Optional<List<OwoProduct>> sortProductAlphabetically( Pageable pageable, @Param("subCategories") List<String> subCategories,
                                                           @Param("alphabet") String alphabet );
+
+    @Query(value = "SELECT * FROM owo_product s where s.product_sub_category_id = (:product_sub_category_id) ORDER BY brands_brand_id LIMIT 20", nativeQuery = true)
+    Optional<List<OwoProduct>> findProductsViaSubCategory(@Param("product_sub_category_id") Long product_sub_category_id );
 }
 

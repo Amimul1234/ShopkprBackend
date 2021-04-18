@@ -2,6 +2,7 @@ package com.owo.OwoDokan.controller.adminControls.productManagement;
 
 import com.owo.OwoDokan.entity.product.OwoProduct;
 import com.owo.OwoDokan.service.product.ProductService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -30,6 +31,12 @@ public class ProductManagement
     public List<OwoProduct> getProductViaBrand(@RequestParam(name = "page") int page, @RequestParam("brandsId") Long brandsId)
     {
         return productService.getProductsByBrand(page, brandsId);
+    }
+
+    @GetMapping("/getSimilarProducts")
+    public List<OwoProduct> getSimilarProducts(@RequestParam("product_sub_category_id") Long product_sub_category_id)
+    {
+        return productService.getSimilarProducts(product_sub_category_id);
     }
 
     @PostMapping("/addProduct") //This method is for adding new products
