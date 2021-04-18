@@ -146,7 +146,9 @@ public class ShopUserDebtService {
         }
     }
 
-    public ResponseEntity getDebtDetailsForACustomer(Long user_id) {
+    public ResponseEntity getDebtDetailsForACustomer(Long user_id)
+    {
+
         UserDebts userDebts1;
 
         try
@@ -320,4 +322,19 @@ public class ShopUserDebtService {
             throw new RuntimeException("User with id:- "+userId + " does not exists");
         }
     }
+
+    public Double getPaidAmount(Long userId)
+    {
+        Optional<UserDebts> userDebtsOptional = userDebtRepository.findById(userId);
+
+        if(userDebtsOptional.isPresent())
+        {
+            UserDebts userDebts = userDebtsOptional.get();
+            return userDebts.getUserPaid();
+        }
+        else {
+            return 0.0;
+        }
+    }
+
 }

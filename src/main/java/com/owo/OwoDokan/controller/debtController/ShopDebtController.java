@@ -3,6 +3,7 @@ package com.owo.OwoDokan.controller.debtController;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
+import com.itextpdf.text.*;
 import com.owo.OwoDokan.ModelClass.debt.DebtDashBoardResponse;
 import com.owo.OwoDokan.entity.shops.shopsData.UserDebts;
 import com.owo.OwoDokan.entity.shops.shopsData.User_debt_details;
@@ -14,14 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.FontFactory;
-import com.itextpdf.text.PageSize;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -113,7 +106,7 @@ public class ShopDebtController {
 
         document.open();
 
-        Paragraph title = new Paragraph(customer_name+" Debt details",
+        Paragraph title = new Paragraph(customer_name+" Loan details",
                 FontFactory.getFont(FontFactory.HELVETICA, 20, Font.BOLD, new BaseColor(255, 0, 0)));
 
         document.add(title);
@@ -131,12 +124,14 @@ public class ShopDebtController {
         PdfPCell c3 = new PdfPCell(new Phrase("Date"));
         table.addCell(c3);
 
-        PdfPCell c4 = new PdfPCell(new Phrase("Due"));
+        PdfPCell c4 = new PdfPCell(new Phrase("TK"));
         table.addCell(c4);
 
         int i;
 
         int length = user_debt_details.size();
+
+        double totalLoan =0.0;
 
         for(i=0; i<length; i++)
         {
@@ -144,7 +139,21 @@ public class ShopDebtController {
             table.addCell(user_debt_details.get(i).getDescription());
             table.addCell(user_debt_details.get(i).getDate());
             table.addCell(String.valueOf(user_debt_details.get(i).getTaka()));
+
+            totalLoan += user_debt_details.get(i).getTaka();
         }
+
+        table.addCell(createCell("Total Loan", 1, 3, Element.ALIGN_RIGHT));
+        table.addCell(createCell(String.valueOf(totalLoan), 1, 1, Element.ALIGN_LEFT));
+
+        Double paidAmount = shopUserDebtService.getPaidAmount(user_id);
+
+        table.addCell(createCell("Total Paid", 1, 3, Element.ALIGN_RIGHT));
+        table.addCell(createCell(String.valueOf(paidAmount), 1, 1, Element.ALIGN_LEFT));
+
+        table.addCell(createCell("Total Due", 1, 3, Element.ALIGN_RIGHT));
+        table.addCell(createCell(String.valueOf(totalLoan - paidAmount), 1, 1, Element.ALIGN_LEFT));
+
 
         document.add(table);
 
@@ -157,7 +166,15 @@ public class ShopDebtController {
         headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
         headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=DebtDetails.pdf");
 
-        return new ResponseEntity<>(new InputStreamResource(is), headers,
-                HttpStatus.OK);
+        return new ResponseEntity<>(new InputStreamResource(is), headers, HttpStatus.OK);
     }
+
+    public PdfPCell createCell(String content, float borderWidth, int colspan, int alignment) {
+        PdfPCell cell = new PdfPCell(new Phrase(content));
+        cell.setBorderWidth(borderWidth);
+        cell.setColspan(colspan);
+        cell.setHorizontalAlignment(alignment);
+        return cell;
+    }
+
 }
