@@ -22,4 +22,9 @@ public class TimeSlotService
     public List<TimeSlot> getAllTimeSlots() {
         return timeSlotRepo.findAll();
     }
+
+    public void deleteTimeSlot( Long timeSlotId )
+    {
+        timeSlotRepo.deleteById(timeSlotId);
+    }
 }
