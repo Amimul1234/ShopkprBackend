@@ -4,6 +4,8 @@ import com.owo.OwoDokan.entity.timeSlot.TimeSlot;
 import com.owo.OwoDokan.repository.timeSlot.TimeSlotRepo;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TimeSlotService
 {
@@ -15,5 +17,9 @@ public class TimeSlotService
 
     public void addNewTimeSlot( TimeSlot timeSlot ) {
         timeSlotRepo.save(timeSlot);
+    }
+
+    public List<TimeSlot> getAllTimeSlots() {
+        return timeSlotRepo.findAll();
     }
 }
