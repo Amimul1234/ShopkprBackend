@@ -6,7 +6,7 @@ import com.owo.OwoDokan.entity.product.OwoProduct;
 import com.owo.OwoDokan.entity.shops.registration.ShopPendingRequest;
 import com.owo.OwoDokan.entity.cart.CartListProduct;
 import com.owo.OwoDokan.entity.category.CategoryEntity;
-import com.owo.OwoDokan.entity.order.Shop_keeper_orders;
+import com.owo.OwoDokan.entity.order.ShopKeeperOrders;
 import com.owo.OwoDokan.service.brand.BrandsService;
 import com.owo.OwoDokan.service.product.ProductService;
 import com.owo.OwoDokan.service.cart.Shop_keeper_cart_service;
@@ -69,15 +69,16 @@ public class ShopKeeperRestController {
     }
 
     @PostMapping("/shop_keeper_order")
-    public ResponseEntity add_shop_order(@RequestBody Shop_keeper_orders shop_keeper_orders, @RequestParam(name = "mobile_number") String mobile_number)
+    public void createOrder(@RequestBody ShopKeeperOrders shopKeeperOrders,
+                                         @RequestParam(name = "mobile_number") String mobile_number)
     {
-        return shop_keeper_orderService.addOrder(shop_keeper_orders, mobile_number);
+        shop_keeper_orderService.addOrder(shopKeeperOrders, mobile_number);
     }
 
     @GetMapping("/get_shop_keeper_order")
-    public List<Shop_keeper_orders> getShopKeeperOrders(@RequestParam(name = "page") int page, @RequestParam(name = "mobile_number") String mobile_number)
+    public List<ShopKeeperOrders> getShopKeeperOrders( @RequestParam(name = "page") int page, @RequestParam(name = "mobile_number") String mobile_number)
     {
-        Page<Shop_keeper_orders> pagedList = shop_keeper_orderService.getAllProducts(page, mobile_number);
+        Page<ShopKeeperOrders> pagedList = shop_keeper_orderService.getAllProducts(page, mobile_number);
         return pagedList.getContent();
     }
 

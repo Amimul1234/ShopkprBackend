@@ -26,7 +26,7 @@ public class Shop_keeper_ordered_products {
     private double product_discount;
     @Column(nullable = false)
     private int product_quantity;
-    @Column(nullable = false, columnDefinition = "LONGTEXT")
+    @Column(columnDefinition = "LONGTEXT")
     private String product_description;
     @Column(nullable = false)
     private String product_creation_date;
@@ -34,7 +34,6 @@ public class Shop_keeper_ordered_products {
     private String product_creation_time;
     @Column(nullable = false)
     private String product_sub_category;
-    @Column(nullable = false)
     private String product_brand;
     @Column(nullable = false, columnDefinition = "LONGTEXT")
     private String product_image;
@@ -43,5 +42,5 @@ public class Shop_keeper_ordered_products {
             CascadeType.DETACH, CascadeType.REFRESH})
 
     @JsonBackReference
-    private Shop_keeper_orders shop_keeper_orders;
+    private ShopKeeperOrders shopKeeperOrders;
 }

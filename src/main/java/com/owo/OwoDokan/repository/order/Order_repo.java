@@ -1,6 +1,6 @@
 package com.owo.OwoDokan.repository.order;
 
-import com.owo.OwoDokan.entity.order.Shop_keeper_orders;
+import com.owo.OwoDokan.entity.order.ShopKeeperOrders;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,16 +10,16 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface Order_repo extends JpaRepository<Shop_keeper_orders, Integer> {
-    @Query("SELECT e FROM Shop_keeper_orders e WHERE e.shop_phone = :mobile_number")
-    Page<Shop_keeper_orders> findByMobileNumber(@Param("mobile_number") String mobile_number, Pageable pageable);
+public interface Order_repo extends JpaRepository<ShopKeeperOrders, Integer> {
+    @Query("SELECT e FROM ShopKeeperOrders e WHERE e.shop_phone = :mobile_number")
+    Page<ShopKeeperOrders> findByMobileNumber( @Param("mobile_number") String mobile_number, Pageable pageable);
 
-    @Query("SELECT e FROM Shop_keeper_orders e WHERE e.shipping_state = :state")
-    List<Shop_keeper_orders> findAllByState(@Param("state") String state);
+    @Query("SELECT e FROM ShopKeeperOrders e WHERE e.shipping_state = :state")
+    List<ShopKeeperOrders> findAllByState( @Param("state") String state);
 
-    @Query("SELECT e FROM Shop_keeper_orders e WHERE e.order_number = :order_number")
-    Shop_keeper_orders findOrderById(@Param("order_number") long order_number);
+    @Query("SELECT e FROM ShopKeeperOrders e WHERE e.order_number = :order_number")
+    ShopKeeperOrders findOrderById( @Param("order_number") long order_number);
 
-    @Query("SELECT e FROM Shop_keeper_orders e WHERE e.shipping_state = :state")
-    Page<Shop_keeper_orders> findByCancelledOrders(@Param("state") String cancelled, Pageable pageable);
+    @Query("SELECT e FROM ShopKeeperOrders e WHERE e.shipping_state = :state")
+    Page<ShopKeeperOrders> findByCancelledOrders( @Param("state") String cancelled, Pageable pageable);
 }

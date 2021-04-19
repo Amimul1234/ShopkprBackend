@@ -1,6 +1,6 @@
 package com.owo.OwoDokan.controller.adminControls.orderManagement;
 
-import com.owo.OwoDokan.entity.order.Shop_keeper_orders;
+import com.owo.OwoDokan.entity.order.ShopKeeperOrders;
 import com.owo.OwoDokan.service.order.ShopKeeperOrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.List;
 
 @RestController
-public class OrderManagement {
+public class OrderManagement
+{
     private final ShopKeeperOrderService shopKeeperOrderService;
 
     public OrderManagement( ShopKeeperOrderService shopKeeperOrderService ) {
@@ -50,7 +50,7 @@ public class OrderManagement {
     }
 
     @GetMapping("/getDeliveredOrders")
-    public ResponseEntity<List<Shop_keeper_orders>> getDeliveredOrders( @RequestParam("page_num") int page_num)
+    public ResponseEntity<List<ShopKeeperOrders>> getDeliveredOrders( @RequestParam("page_num") int page_num)
     {
         try
         {
@@ -62,7 +62,7 @@ public class OrderManagement {
     }
 
     @GetMapping("/getCancelledOrders")
-    public ResponseEntity<List<Shop_keeper_orders>> getCancelledOrders(@RequestParam("page_num") int page_num)
+    public ResponseEntity<List<ShopKeeperOrders>> getCancelledOrders( @RequestParam("page_num") int page_num)
     {
         try
         {

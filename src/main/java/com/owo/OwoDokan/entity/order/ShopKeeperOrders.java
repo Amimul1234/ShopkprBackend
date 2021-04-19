@@ -15,7 +15,8 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table
-public class Shop_keeper_orders {
+public class ShopKeeperOrders
+{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long order_number;
@@ -47,7 +48,7 @@ public class Shop_keeper_orders {
 
     @OneToMany(
             targetEntity = Shop_keeper_ordered_products.class,
-            mappedBy = "shop_keeper_orders",
+            mappedBy = "shopKeeperOrders",
             cascade = {CascadeType.PERSIST, CascadeType.MERGE,
                     CascadeType.DETACH, CascadeType.REFRESH},
             orphanRemoval = true,

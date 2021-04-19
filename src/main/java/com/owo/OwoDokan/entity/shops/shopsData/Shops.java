@@ -2,7 +2,7 @@ package com.owo.OwoDokan.entity.shops.shopsData;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.owo.OwoDokan.entity.order.Shop_keeper_orders;
+import com.owo.OwoDokan.entity.order.ShopKeeperOrders;
 import com.owo.OwoDokan.entity.shops.registration.ShopKeeperPermissions;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -63,7 +63,7 @@ public class Shops implements Serializable {
             cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH},
             orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonManagedReference
-    private List<Shop_keeper_orders> shopKeeperOrders = new ArrayList<>();
+    private List<ShopKeeperOrders> shopKeeperOrders = new ArrayList<>();
 
     @OneToMany(
             mappedBy = "shops",
