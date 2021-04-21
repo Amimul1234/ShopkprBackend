@@ -8,6 +8,7 @@ import com.owo.OwoDokan.entity.cart.CartListProduct;
 import com.owo.OwoDokan.entity.category.CategoryEntity;
 import com.owo.OwoDokan.entity.order.ShopKeeperOrders;
 import com.owo.OwoDokan.service.brand.BrandsService;
+import com.owo.OwoDokan.service.category.SubCategoryService;
 import com.owo.OwoDokan.service.product.ProductService;
 import com.owo.OwoDokan.service.cart.Shop_keeper_cart_service;
 import com.owo.OwoDokan.service.category.CategoryService;
@@ -27,14 +28,16 @@ public class ShopKeeperRestController {
     private final ShopKeeperOrderService shop_keeper_orderService;
     private final RegistrationService registrationService;
     private final CategoryService categoryService;
+    private final SubCategoryService subCategoryService;
 
-    public ShopKeeperRestController( ProductService productService, BrandsService brandsService, Shop_keeper_cart_service shop_keeper_cartService, ShopKeeperOrderService shop_keeper_orderService, RegistrationService registrationService, CategoryService categoryService) {
+    public ShopKeeperRestController( ProductService productService, BrandsService brandsService, Shop_keeper_cart_service shop_keeper_cartService, ShopKeeperOrderService shop_keeper_orderService, RegistrationService registrationService, CategoryService categoryService, SubCategoryService subCategoryService ) {
         this.productService = productService;
         this.brandsService = brandsService;
         this.shop_keeper_cartService = shop_keeper_cartService;
         this.shop_keeper_orderService = shop_keeper_orderService;
         this.registrationService = registrationService;
         this.categoryService = categoryService;
+        this.subCategoryService = subCategoryService;
     }
 
     //Shop Registration Request
@@ -112,6 +115,19 @@ public class ShopKeeperRestController {
     public List<OwoProduct> getProductBySubcategory(@RequestParam("categoryIds") List<Long> categoryIds, @RequestParam("subCategoryName") String subCategoryName)
     {
         return productService.getProductsViaSubCategory(categoryIds, subCategoryName);
+    }
+
+    @GetMapping("/getSubCategoryIdViaName")
+    public Long getSubcategoryId(@RequestParam("subCategoryName") String subCategoryName)
+    {
+        return subCategoryService.findSubCategoryId(subCategoryName);
+    }
+
+    @GetMapping("/getProductsBySubCategory")
+    public List<OwoProduct> getSubCategoryBasedProducts(@RequestParam("page") int page,
+                                                        @RequestParam("subCategoryId") Long subCategoryId)
+    {
+        return productService.getProducts(page, subCategoryId);
     }
 
     @GetMapping("/getSpecificCategoryData")

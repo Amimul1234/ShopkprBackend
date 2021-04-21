@@ -9,6 +9,7 @@ import com.owo.OwoDokan.repository.category.SubCategoryRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -156,5 +157,25 @@ public class SubCategoryService {
             log.error("Category with id: " + categoryId + " does not exists");
             throw new RuntimeException("Category with id: " + categoryId + " does not exists");
         }
+    }
+
+    public Long findSubCategoryId( String subCategoryName )
+    {
+
+        Optional<SubCategoryEntity> subCategoryEntityOptional = subCategoryRepo.findBySubCategoryName(subCategoryName);
+
+        if(subCategoryEntityOptional.isPresent())
+        {
+            return subCategoryEntityOptional.get().getSub_category_id();
+        }
+        else
+            throw new RuntimeException("Can not find sub category");
+    }
+
+    public List<SubCategoryEntity> getAllSubCategoriesPaging( List<Long> categoryIds, int page ) {
+        int pageSize = 10; //products per page
+        org.springframework.data.domain.Pageable pageable = PageRequest.of(page, pageSize);
+
+        return subCategoryRepo.findByCategories(categoryIds, pageable);
     }
 }

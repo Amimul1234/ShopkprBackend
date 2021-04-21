@@ -43,4 +43,11 @@ public class SubCategoryManagement
     {
         return subCategoryService.deleteSubCategory(subCategoryId);
     }
+
+    @GetMapping("/getSubCategoriesPaging")
+    public List<SubCategoryEntity> getSubCategoriesPaging(@RequestParam("page") int page, @RequestParam("categoryIds") List<Long> categoryIds)
+    {
+        return subCategoryService.getAllSubCategoriesPaging(categoryIds, page - 1);
+    }
+
 }

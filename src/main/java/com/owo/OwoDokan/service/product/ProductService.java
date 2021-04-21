@@ -352,4 +352,27 @@ public class ProductService {
     {
         return productRepository.findByProductsBySubCategory(categoryIds, subCategoryName);
     }
+
+    public List<OwoProduct> getProducts( int page, Long subCategoryId )
+    {
+        int pageSize = 10; //products per page
+        org.springframework.data.domain.Pageable pageable = PageRequest.of(page, pageSize);
+
+        Optional<List<OwoProduct>> optionalOwoProductList =
+                productRepository.findProductsBySubCategoryId(subCategoryId, pageable);
+
+        if(optionalOwoProductList.isPresent())
+        {
+            List<OwoProduct> owoProductList = optionalOwoProductList.get();
+
+            owoProductList.forEach(this::responseManipulator);
+
+            return owoProductList;
+        }
+        else
+        {
+            log.error("Can not get products with sub category id: "+subCategoryId);
+            throw new RuntimeException("Can not get products");
+        }
+    }
 }
