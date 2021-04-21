@@ -14,7 +14,6 @@ import com.owo.OwoDokan.service.category.CategoryService;
 import com.owo.OwoDokan.service.order.ShopKeeperOrderService;
 import com.owo.OwoDokan.service.shopKeeper.registration.RegistrationService;
 import org.springframework.data.domain.Page;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 import java.util.List;
@@ -52,7 +51,7 @@ public class ShopKeeperRestController {
     }
 
     @GetMapping("/shop_keeper_cart_products")
-    public List<CartListProduct> getCartListForShopKeeper(@RequestParam(name = "mobile_number") String mobile_number) throws Exception {
+    public List<CartListProduct> getCartListForShopKeeper(@RequestParam(name = "mobile_number") String mobile_number) {
         return shop_keeper_cartService.getCartItems(mobile_number);
     }
 
@@ -109,6 +108,12 @@ public class ShopKeeperRestController {
         return productService.getABrandViaProduct(productId);
     }
 
+    @GetMapping("/getProductBySubCategory")
+    public List<OwoProduct> getProductBySubcategory(@RequestParam("categoryIds") List<Long> categoryIds, @RequestParam("subCategoryName") String subCategoryName)
+    {
+        return productService.getProductsViaSubCategory(categoryIds, subCategoryName);
+    }
+
     @GetMapping("/getSpecificCategoryData")
     public List<CategoryEntity> getSpecificCategoryData(@RequestParam("categoryIds") List<Long> categoryIds)
     {
@@ -120,68 +125,4 @@ public class ShopKeeperRestController {
     {
         return brandsService.getBrandsViaCategory(number, categoryIds);
     }
-    /*
-    @GetMapping("/allProducts")
-    public ResponseEntity getAllProduct(@RequestParam(name = "page") int page)
-    {
-        return productService.getAllProducts(page);
-    }
-
-    @GetMapping("/getProductByCategory") //This is for getting products via category
-    public ResponseEntity getProductByCategory(@RequestParam(name = "page") int page, @RequestParam(name = "product_category") String product_category)
-    {
-        return productService.getProduct_by_category(page, product_category);
-    }
-
-    @GetMapping("/getProductByCategoryDesc") //This is for getting products via category DESC
-    public ResponseEntity getProductByCategoryDesc(@RequestParam(name = "page") int page, @RequestParam(name = "product_category") String product_category)
-    {
-        return productService.getProduct_by_categoryDesc(page, product_category);
-    }
-
-    @GetMapping("/getProductByCategoriesDesc") //This is for getting products via specific categories in Descending  order for shopkeeper
-    public ResponseEntity getProductByCategoriesDesc(@RequestParam(name = "page") int page, @RequestParam(name = "product_categories") String[] product_category)
-    {
-        List<String> categories = Arrays.asList(product_category);
-        return productService.getProduct_by_categoriesDesc(page, categories);
-    }
-
-    @GetMapping("/getProductBySubCategory") //This is for getting products via category
-    public ResponseEntity getProductBySubCategory(@RequestParam(name = "page") int page, @RequestParam(name = "product_sub_category") String product_sub_category)
-    {
-        return productService.getProduct_by_sub_category(page, product_sub_category);
-    }
-
-    @GetMapping("/getProductBySubCategoryDesc") //This is for getting products via category
-    public ResponseEntity getProductBySubCategoryDesc(@RequestParam(name = "page") int page, @RequestParam(name = "product_sub_category") String product_sub_category)
-    {
-        return productService.getProduct_by_sub_categoryDesc(page, product_sub_category);
-    }
-
-    @GetMapping("/searchProduct")
-    public ResponseEntity searchProduct(@RequestParam(name = "page") int page,
-        @RequestParam(name = "product_categories") String[] product_categories,
-        @RequestParam(name = "product_name") String product_name)
-    {
-        return productService.searchProduct(page, product_categories, product_name);
-    }
-
-    @GetMapping("/searchProductDesc")
-    public ResponseEntity searchProductDesc(@RequestParam(name = "page") int page, @RequestParam(name = "product_categories") String[] product_categories, @RequestParam(name = "product_name") String product_name)
-    {
-        return productService.searchProductDesc(page, product_categories, product_name);
-    }
-
-    @GetMapping("/getProductByBrand") //This is for getting products via category
-    public ResponseEntity getProductByBrand(@RequestParam(name = "page") int page, @RequestParam(name = "product_categories") String[] product_categories, @RequestParam(name = "product_brand") String product_brand)
-    {
-        return productService.getProductByBrand(page, product_brand, product_categories);
-    }
-
-    @GetMapping("/getProductByBrandDesc") //This is for getting products via category
-    public ResponseEntity getProductByBrandDesc(@RequestParam(name = "page") int page, @RequestParam(name = "product_categories") String[] product_categories, @RequestParam(name = "product_brand") String product_brand)
-    {
-        return productService.getProductByBrandDesc(page, product_brand, product_categories);
-    }
-     */
 }

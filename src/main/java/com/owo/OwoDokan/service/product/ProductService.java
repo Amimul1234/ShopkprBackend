@@ -347,4 +347,9 @@ public class ProductService {
             throw new RuntimeException("Can not get products with sub_cat_id: " + product_sub_category_id);
         }
     }
+
+    public List<OwoProduct> getProductsViaSubCategory( List<Long> categoryIds, String subCategoryName )
+    {
+        return productRepository.findByProductsBySubCategory(categoryIds, subCategoryName);
+    }
 }

@@ -55,5 +55,9 @@ public interface ProductRepository extends JpaRepository<OwoProduct, Long> {
 
     @Query(value = "SELECT * FROM owo_product s where s.product_sub_category_id = (:product_sub_category_id) ORDER BY brands_brand_id LIMIT 20", nativeQuery = true)
     Optional<List<OwoProduct>> findProductsViaSubCategory(@Param("product_sub_category_id") Long product_sub_category_id );
+
+    @Query(value = "SELECT * FROM owo_product s WHERE s.product_sub_category_id = (SELECT e.sub_category_id FROM sub_category_entity e WHERE e.sub_category_name = :subCategoryName) " +
+            "and s.product_category_id IN(:categoryIds) ORDER BY s.product_id DESC LIMIT 20 ", nativeQuery = true)
+    List<OwoProduct> findByProductsBySubCategory(@Param("categoryIds") List<Long> categoryIds, @Param("subCategoryName") String subCategoryName );
 }
 
