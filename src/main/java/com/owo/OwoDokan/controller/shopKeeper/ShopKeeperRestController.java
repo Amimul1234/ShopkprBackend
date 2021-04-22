@@ -30,7 +30,10 @@ public class ShopKeeperRestController {
     private final CategoryService categoryService;
     private final SubCategoryService subCategoryService;
 
-    public ShopKeeperRestController( ProductService productService, BrandsService brandsService, Shop_keeper_cart_service shop_keeper_cartService, ShopKeeperOrderService shop_keeper_orderService, RegistrationService registrationService, CategoryService categoryService, SubCategoryService subCategoryService ) {
+    public ShopKeeperRestController( ProductService productService, BrandsService brandsService,
+                                     Shop_keeper_cart_service shop_keeper_cartService, ShopKeeperOrderService shop_keeper_orderService,
+                                     RegistrationService registrationService, CategoryService categoryService, SubCategoryService subCategoryService )
+    {
         this.productService = productService;
         this.brandsService = brandsService;
         this.shop_keeper_cartService = shop_keeper_cartService;
@@ -40,7 +43,6 @@ public class ShopKeeperRestController {
         this.subCategoryService = subCategoryService;
     }
 
-    //Shop Registration Request
     @PostMapping("/shopRegisterRequest")
     public String shopRegisterRequest(@RequestBody ShopPendingRequest shopPendingRequest)
     {
@@ -140,5 +142,11 @@ public class ShopKeeperRestController {
     public List<Brands> getBrandsViaCategory(@RequestParam(name = "number") int number, @RequestParam(name = "categoryIds") List<Long> categoryIds)
     {
         return brandsService.getBrandsViaCategory(number, categoryIds);
+    }
+
+    @GetMapping("/getAllBrands")
+    public List<Brands> getAllBrandsViaSubCategory(@RequestParam("subCategoryId") Long subCategoryId)
+    {
+        return subCategoryService.getAllBrandsViaSubCategory(subCategoryId);
     }
 }

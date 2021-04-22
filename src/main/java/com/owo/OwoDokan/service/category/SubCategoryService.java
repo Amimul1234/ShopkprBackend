@@ -1,5 +1,6 @@
 package com.owo.OwoDokan.service.category;
 
+import com.owo.OwoDokan.entity.brands.Brands;
 import com.owo.OwoDokan.entity.category.CategoryEntity;
 import com.owo.OwoDokan.entity.category.SubCategoryEntity;
 import com.owo.OwoDokan.exceptions.CategoryNotFoundException;
@@ -173,9 +174,24 @@ public class SubCategoryService {
     }
 
     public List<SubCategoryEntity> getAllSubCategoriesPaging( List<Long> categoryIds, int page ) {
-        int pageSize = 10; //products per page
+        int pageSize = 9; //products per page
         org.springframework.data.domain.Pageable pageable = PageRequest.of(page, pageSize);
 
         return subCategoryRepo.findByCategories(categoryIds, pageable);
+    }
+
+    public List<Brands> getAllBrandsViaSubCategory( Long subCategoryId ) {
+        Optional<SubCategoryEntity> subCategoryEntityOptional = subCategoryRepo.findById(subCategoryId);
+
+        if(subCategoryEntityOptional.isPresent())
+        {
+            SubCategoryEntity subCategoryEntity = subCategoryEntityOptional.get();
+            return subCategoryEntity.getBrandsList();
+        }
+        else
+        {
+            log.warn("Can not find sub category with id: " + subCategoryId);
+            throw new RuntimeException("Can not find sub category");
+        }
     }
 }
