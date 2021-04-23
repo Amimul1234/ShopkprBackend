@@ -62,5 +62,8 @@ public interface ProductRepository extends JpaRepository<OwoProduct, Long> {
 
     @Query("SELECT e FROM OwoProduct e WHERE e.productSubCategoryId = :subCategoryId")
     Optional<List<OwoProduct>> findProductsBySubCategoryId(@Param("subCategoryId") Long subCategoryId, Pageable pageable );
+
+    @Query("SELECT e FROM OwoProduct e WHERE e.productQuantity = 0")
+    List<OwoProduct> findAllStockedOutProducts( Pageable pageable );
 }
 

@@ -21,6 +21,12 @@ public class ProductManagement
         return productService.getAllProducts(page);
     }
 
+    @GetMapping("/getAllStockedOutProducts")
+    public List<OwoProduct> getAllStockedOutProducts(@RequestParam("page") int page)
+    {
+        return productService.getAllStockedOutProducts(page);
+    }
+
     @GetMapping("/getAProduct")
     public OwoProduct getAProduct(@RequestParam(name = "productId") Long productId)
     {

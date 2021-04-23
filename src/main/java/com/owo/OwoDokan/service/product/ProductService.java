@@ -375,4 +375,27 @@ public class ProductService {
             throw new RuntimeException("Can not get products");
         }
     }
+
+    public List<OwoProduct> getAllStockedOutProducts( int page )
+    {
+        int pageSize = 10; //products per page
+        org.springframework.data.domain.Pageable pageable = PageRequest.of(page, pageSize);
+
+        try
+        {
+            List<OwoProduct> owoProductList = productRepository.findAllStockedOutProducts(pageable);
+
+            for(OwoProduct owoProduct : owoProductList)
+            {
+                responseManipulator(owoProduct);
+            }
+
+            return owoProductList;
+        }
+        catch (Exception e)
+        {
+            log.error(e.getMessage());
+            throw  new RuntimeException(e);
+        }
+    }
 }
