@@ -5,7 +5,6 @@ import com.owo.OwoDokan.entity.gifts.Gifts;
 import com.owo.OwoDokan.service.deal.DealService;
 import com.owo.OwoDokan.service.gift.GiftService;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
