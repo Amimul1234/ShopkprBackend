@@ -162,7 +162,8 @@ public class ProductService {
         owoProduct.setProductCreationDate(null);
     }
 
-    public List<OwoProduct> getProduct_by_categories(int page, List<Long> categories) {
+    public List<OwoProduct> getProduct_by_categories(int page, List<Long> categories)
+    {
         int pageSize = 10; //products per page
         org.springframework.data.domain.Pageable pageable = PageRequest.of(page, pageSize);
 

@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<OwoProduct, Long> {
 
-    @Query("SELECT e FROM OwoProduct e WHERE e.productCategoryId IN (:categories) order by e.productPrice")
+    @Query("SELECT e FROM OwoProduct e WHERE e.productCategoryId IN (:categories) order by e.productId DESC ")
     Page<OwoProduct> findByCategories(@Param("categories") List<Long> categories, Pageable pageable);
 
     @Query("select e from OwoProduct e where e.brands.brandId = :brandId")
