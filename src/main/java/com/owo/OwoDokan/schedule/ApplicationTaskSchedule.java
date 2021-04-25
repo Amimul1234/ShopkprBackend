@@ -11,7 +11,8 @@ import java.util.List;
 
 @Component
 @Slf4j
-public class ApplicationTaskSchedule {
+public class ApplicationTaskSchedule
+{
 
     private final OfferRepository offerRepository;
     private final QuponRepo quponRepo;
@@ -21,11 +22,9 @@ public class ApplicationTaskSchedule {
         this.quponRepo = quponRepo;
     }
 
-
-    //Scheduling task for every 5 hours
     @Scheduled(fixedRate = 1000*60*60*5)
-    public void reportCurrentTime() {
-        //Update qupon and offers banner
+    public void reportCurrentTime()
+    {
         updateOfferState();
         updateQuponState();
     }
@@ -51,7 +50,7 @@ public class ApplicationTaskSchedule {
                         quponRepo.save(qupon);
                     }catch (Exception e)
                     {
-                        log.error("Can not update qupon, which id is: " + String.valueOf(qupon.getQuponId()));
+                        log.error("Can not update qupon, which id is: " + qupon.getQuponId());
                     }
                 }
 
@@ -65,7 +64,7 @@ public class ApplicationTaskSchedule {
                     }
                     catch (Exception e)
                     {
-                        log.error("Can not qupon state, id is: "+String.valueOf(qupon.getQuponId()));
+                        log.error("Can not qupon state, id is: "+ qupon.getQuponId());
                     }
                 }
             }
@@ -92,7 +91,7 @@ public class ApplicationTaskSchedule {
                         offerRepository.save(offersEntity);
                     }catch (Exception e)
                     {
-                        log.error("Can not update offer, which id is: " + String.valueOf(offersEntity.getOfferId()));
+                        log.error("Can not update offer, which id is: " + offersEntity.getOfferId());
                     }
                 }
 
@@ -106,7 +105,7 @@ public class ApplicationTaskSchedule {
                     }
                     catch (Exception e)
                     {
-                        log.error("Can not update offer state, id is: "+String.valueOf(offersEntity.getOfferId()));
+                        log.error("Can not update offer state, id is: "+ offersEntity.getOfferId());
                     }
                 }
             }
