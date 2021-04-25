@@ -1,32 +1,79 @@
 package com.owo.OwoDokan.schedule;
 
 import com.owo.OwoDokan.entity.offers.OffersEntity;
+import com.owo.OwoDokan.entity.qupon.Qupon;
 import com.owo.OwoDokan.repository.offers.OfferRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.owo.OwoDokan.repository.qupon.QuponRepo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
+@Slf4j
 public class ApplicationTaskSchedule {
 
-    private static final Logger log = LoggerFactory.getLogger(ApplicationTaskSchedule.class);
-
     private final OfferRepository offerRepository;
+    private final QuponRepo quponRepo;
 
-    public ApplicationTaskSchedule(OfferRepository offerRepository) {
+    public ApplicationTaskSchedule( OfferRepository offerRepository, QuponRepo quponRepo ) {
         this.offerRepository = offerRepository;
+        this.quponRepo = quponRepo;
     }
 
 
     //Scheduling task for every 5 hours
     @Scheduled(fixedRate = 1000*60*60*5)
     public void reportCurrentTime() {
-        updateOfferState();//check for order state decisions
+        //Update qupon and offers banner
+        updateOfferState();
+        updateQuponState();
     }
 
-    private void updateOfferState() {
+    private void updateQuponState()
+    {
+        java.sql.Date today = new java.sql.Date(new java.util.Date().getTime());
+
+        List<Qupon> quponList = quponRepo.findAll();
+
+        if(!quponList.isEmpty())
+        {
+            for(Qupon qupon : quponList)
+            {
+                int value = today.compareTo(qupon.getQuponStartDate());
+
+                if(value==0 || value > 0) //If it is already past the start date then enable offer
+                {
+                    qupon.setEnabled(true);
+
+                    try
+                    {
+                        quponRepo.save(qupon);
+                    }catch (Exception e)
+                    {
+                        log.error("Can not update qupon, which id is: " + String.valueOf(qupon.getQuponId()));
+                    }
+                }
+
+                if(today.after(qupon.getQuponEndDate()))
+                {
+                    qupon.setEnabled(false);
+
+                    try
+                    {
+                        quponRepo.save(qupon);
+                    }
+                    catch (Exception e)
+                    {
+                        log.error("Can not qupon state, id is: "+String.valueOf(qupon.getQuponId()));
+                    }
+                }
+            }
+        }
+    }
+
+    private void updateOfferState()
+    {
         java.sql.Date today = new java.sql.Date(new java.util.Date().getTime());
 
         List<OffersEntity> offersEntityList = offerRepository.findAll();

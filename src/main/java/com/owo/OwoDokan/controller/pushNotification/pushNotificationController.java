@@ -6,11 +6,12 @@ import com.owo.OwoDokan.service.pushNotification.PushNotificationService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class pushNotificationController {
-
+public class pushNotificationController
+{
     private final PushNotificationService pushNotificationService;
 
-    public pushNotificationController( PushNotificationService pushNotificationService ) {
+    public pushNotificationController( PushNotificationService pushNotificationService )
+    {
         this.pushNotificationService = pushNotificationService;
     }
 
