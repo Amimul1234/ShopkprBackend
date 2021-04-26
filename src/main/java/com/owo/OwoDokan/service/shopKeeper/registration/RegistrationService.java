@@ -1,5 +1,7 @@
 package com.owo.OwoDokan.service.shopKeeper.registration;
 
+import com.owo.OwoDokan.entity.qupon.Qupon;
+import com.owo.OwoDokan.entity.registerAccount.ShopKeeperUser;
 import com.owo.OwoDokan.entity.shops.registration.ShopKeeperPermissions;
 import com.owo.OwoDokan.entity.shops.registration.ShopPendingRequest;
 import com.owo.OwoDokan.entity.shops.shopsData.Shops;
@@ -7,6 +9,8 @@ import com.owo.OwoDokan.repository.shop.registraton.ShopRegistrationRequestRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class RegistrationService {

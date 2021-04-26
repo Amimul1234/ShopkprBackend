@@ -3,6 +3,7 @@ package com.owo.OwoDokan.controller.shopKeeper;
 import com.owo.OwoDokan.ModelClass.CartListFromClient;
 import com.owo.OwoDokan.entity.brands.Brands;
 import com.owo.OwoDokan.entity.product.OwoProduct;
+import com.owo.OwoDokan.entity.qupon.Qupon;
 import com.owo.OwoDokan.entity.shops.registration.ShopPendingRequest;
 import com.owo.OwoDokan.entity.cart.CartListProduct;
 import com.owo.OwoDokan.entity.category.CategoryEntity;
@@ -114,7 +115,8 @@ public class ShopKeeperRestController {
     }
 
     @GetMapping("/getProductBySubCategory")
-    public List<OwoProduct> getProductBySubcategory(@RequestParam("categoryIds") List<Long> categoryIds, @RequestParam("subCategoryName") String subCategoryName)
+    public List<OwoProduct> getProductBySubcategory(@RequestParam("categoryIds") List<Long> categoryIds,
+                                                    @RequestParam("subCategoryName") String subCategoryName)
     {
         return productService.getProductsViaSubCategory(categoryIds, subCategoryName);
     }
@@ -139,7 +141,8 @@ public class ShopKeeperRestController {
     }
 
     @GetMapping("/getBrandsViaCategory")
-    public List<Brands> getBrandsViaCategory(@RequestParam(name = "number") int number, @RequestParam(name = "categoryIds") List<Long> categoryIds)
+    public List<Brands> getBrandsViaCategory(@RequestParam(name = "number") int number,
+                                             @RequestParam(name = "categoryIds") List<Long> categoryIds)
     {
         return brandsService.getBrandsViaCategory(number, categoryIds);
     }

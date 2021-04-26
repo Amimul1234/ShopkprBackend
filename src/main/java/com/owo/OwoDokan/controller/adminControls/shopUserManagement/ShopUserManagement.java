@@ -1,8 +1,10 @@
 package com.owo.OwoDokan.controller.adminControls.shopUserManagement;
 
+import com.owo.OwoDokan.entity.qupon.Qupon;
 import com.owo.OwoDokan.entity.registerAccount.ShopKeeperUser;
 import com.owo.OwoDokan.entity.registerAccount.UserShopKeeper;
 import com.owo.OwoDokan.service.registration.ShopKeeperRegistrationService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -61,5 +63,17 @@ public class ShopUserManagement
     public String updateShopKeeperInfo(@RequestBody ShopKeeperUser shopKeeperUser)
     {
         return shopKeeperRegistrationService.updateShopInfo(shopKeeperUser);
+    }
+
+    @PostMapping("/addQuponToAnUser")
+    public void addNewCouponToUser( @RequestParam("mobileNumber") String mobileNumber, @RequestBody Qupon qupon )
+    {
+        shopKeeperRegistrationService.addNewCouponToUser(mobileNumber, qupon);
+    }
+
+    @GetMapping("/checkUserAlreadyTakenCouponOrNot")
+    public ResponseEntity<String> checkUserAlreadyTakenCoupon( @RequestParam("mobileNumber") String mobileNumber, @RequestParam("quponId") Long quponId)
+    {
+        return shopKeeperRegistrationService.checkTakenOrNotTaken(mobileNumber, quponId);
     }
 }

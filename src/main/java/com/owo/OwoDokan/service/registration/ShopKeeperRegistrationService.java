@@ -1,5 +1,7 @@
 package com.owo.OwoDokan.service.registration;
 
+import com.owo.OwoDokan.entity.qupon.Qupon;
+import com.owo.OwoDokan.entity.qupon.TakenQupons;
 import com.owo.OwoDokan.entity.registerAccount.ShopKeeperUser;
 import com.owo.OwoDokan.entity.registerAccount.UserShopKeeper;
 import com.owo.OwoDokan.exceptions.NoEnabledShops;
@@ -7,9 +9,10 @@ import com.owo.OwoDokan.exceptions.ShopKeeperUserNotFount;
 import com.owo.OwoDokan.repository.shop.registraton.ShopKeeperUserRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -24,7 +27,9 @@ public class ShopKeeperRegistrationService {
     }
 
 
-    public String addNewShopKeeper(UserShopKeeper userShopKeeper) {
+    public String addNewShopKeeper(UserShopKeeper userShopKeeper)
+    {
+
         ShopKeeperUser shopKeeperUser = new ShopKeeperUser();
 
         shopKeeperUser.setImageUri(userShopKeeper.getImage());
@@ -197,6 +202,63 @@ public class ShopKeeperRegistrationService {
         else
         {
             throw new ShopKeeperUserNotFount(shopKeeperUser.getMobileNumber());
+        }
+    }
+
+    public void addNewCouponToUser( String mobileNumber, Qupon qupon ) {
+
+        Optional<ShopKeeperUser> shopKeeperUserOptional = shopKeeperUserRepo.findByMobileNumber(mobileNumber);
+
+        if(shopKeeperUserOptional.isPresent())
+        {
+            ShopKeeperUser shopKeeperUser = shopKeeperUserOptional.get();
+
+            List<TakenQupons> takenQuponsList = shopKeeperUser.getTakenQuponsList();
+
+            takenQuponsList.forEach(takenQupons -> {
+                if(takenQupons.getQuponId().equals(qupon.getQuponId()))
+                {
+                    throw new RuntimeException("Coupon already exists");
+                }
+            });
+
+            TakenQupons takenQupons = new TakenQupons();
+            takenQupons.setShopKeeperUser(shopKeeperUser);
+            takenQupons.setQuponId(qupon.getQuponId());
+
+            shopKeeperUser.getTakenQuponsList().add(takenQupons);
+
+            shopKeeperUserRepo.save(shopKeeperUser);
+        }
+        else
+        {
+            throw new RuntimeException("Shop Keeper with mobile number: "+mobileNumber + " does not exists");
+        }
+    }
+
+    public ResponseEntity<String> checkTakenOrNotTaken( String mobileNumber, Long quponId ) {
+
+        Optional<ShopKeeperUser> shopKeeperUserOptional = shopKeeperUserRepo.findByMobileNumber(mobileNumber);
+
+        if(shopKeeperUserOptional.isPresent())
+        {
+            ShopKeeperUser shopKeeperUser = shopKeeperUserOptional.get();
+
+            List<TakenQupons> takenQuponsList = shopKeeperUser.getTakenQuponsList();
+
+            for (TakenQupons takenQupons : takenQuponsList)
+            {
+                if (takenQupons.getQuponId().equals(quponId))
+                {
+                    return new ResponseEntity<>("User taken coupon", HttpStatus.OK);
+                }
+            }
+
+            throw new RuntimeException("User did not take coupon");
+        }
+        else
+        {
+            throw new RuntimeException("Shop Keeper with mobile number: "+mobileNumber + " does not exists");
         }
     }
 }

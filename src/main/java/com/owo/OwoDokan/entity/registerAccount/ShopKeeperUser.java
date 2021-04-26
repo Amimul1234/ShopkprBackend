@@ -1,10 +1,14 @@
 package com.owo.OwoDokan.entity.registerAccount;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.owo.OwoDokan.entity.qupon.TakenQupons;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -22,4 +26,12 @@ public class ShopKeeperUser implements Serializable {
     @Column(columnDefinition = "LONGTEXT")
     private String imageUri;
     private Boolean accountEnabled;
+
+    @OneToMany(
+            mappedBy = "shopKeeperUser",
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH},
+            orphanRemoval = true, fetch = FetchType.EAGER
+    )
+    @JsonManagedReference
+    List<TakenQupons> takenQuponsList = new ArrayList<>();
 }
