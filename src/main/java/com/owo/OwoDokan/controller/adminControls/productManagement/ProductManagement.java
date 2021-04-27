@@ -2,7 +2,6 @@ package com.owo.OwoDokan.controller.adminControls.productManagement;
 
 import com.owo.OwoDokan.entity.product.OwoProduct;
 import com.owo.OwoDokan.service.product.ProductService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -45,7 +44,7 @@ public class ProductManagement
         return productService.getSimilarProducts(product_sub_category_id);
     }
 
-    @PostMapping("/addProduct") //This method is for adding new products
+    @PostMapping("/addProduct")
     public OwoProduct addProduct(@RequestBody OwoProduct product)
     {
         return productService.saveProduct(product);
@@ -91,5 +90,4 @@ public class ProductManagement
     {
         return productService.sortAlphabetically(page, subCategories, alphabet);
     }
-
 }

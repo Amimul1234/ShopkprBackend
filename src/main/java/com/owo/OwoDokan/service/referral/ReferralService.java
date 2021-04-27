@@ -33,4 +33,17 @@ public class ReferralService {
             referralRepo.save(referral);
         }
     }
+
+    public Referral getReferral( String mobileNumber ) {
+        Optional<Referral> referralOptional = referralRepo.findByReferrerNumber(mobileNumber);
+
+        if(referralOptional.isPresent())
+        {
+            return referralOptional.get();
+        }
+        else
+        {
+            throw new RuntimeException("Can ot get referrer with id: " + mobileNumber);
+        }
+    }
 }

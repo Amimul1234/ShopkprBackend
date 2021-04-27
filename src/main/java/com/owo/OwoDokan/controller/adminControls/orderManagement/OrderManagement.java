@@ -75,8 +75,9 @@ public class OrderManagement
     }
 
     @PutMapping("/setOrderState")
-    public ResponseEntity setOrderState(@RequestParam(name="order_id") long order_id, @RequestParam("order_state") String order_state)
+    public void setOrderState(@RequestParam(name="order_id") long order_id,
+                                        @RequestParam("order_state") String order_state)
     {
-        return shopKeeperOrderService.setOrderState(order_id, order_state);
+        shopKeeperOrderService.setOrderState(order_id, order_state);
     }
 }
