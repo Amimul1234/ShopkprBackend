@@ -138,6 +138,29 @@ public class ShopKeeperOrderService
                 });
             }
 
+            else if(order_state.equals("Cancelled"))
+            {
+                List<Shop_keeper_ordered_products> shop_keeper_ordered_productsList =
+                        shopKeeperOrders.getShop_keeper_ordered_products();
+
+                shop_keeper_ordered_productsList.forEach(products -> {
+
+                    Optional<OwoProduct> owoProductOptional = productRepository.findById(products.getProduct_id());
+
+                    if(owoProductOptional.isPresent())
+                    {
+                        OwoProduct owoProduct = owoProductOptional.get();
+
+                        owoProduct.setProductQuantity(owoProduct.getProductQuantity() + products.getProduct_quantity());
+
+                        productRepository.save(owoProduct);
+                    }
+                    else {
+                        throw new RuntimeException("Can not update product quantity");
+                    }
+                });
+            }
+
             shopKeeperOrders.setShipping_state(order_state);
 
             order_repo.save(shopKeeperOrders);

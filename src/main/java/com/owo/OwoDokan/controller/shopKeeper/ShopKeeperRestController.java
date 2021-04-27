@@ -3,7 +3,6 @@ package com.owo.OwoDokan.controller.shopKeeper;
 import com.owo.OwoDokan.ModelClass.CartListFromClient;
 import com.owo.OwoDokan.entity.brands.Brands;
 import com.owo.OwoDokan.entity.product.OwoProduct;
-import com.owo.OwoDokan.entity.qupon.Qupon;
 import com.owo.OwoDokan.entity.shops.registration.ShopPendingRequest;
 import com.owo.OwoDokan.entity.cart.CartListProduct;
 import com.owo.OwoDokan.entity.category.CategoryEntity;
