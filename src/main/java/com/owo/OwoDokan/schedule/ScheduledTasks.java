@@ -19,13 +19,13 @@ import java.util.zip.ZipOutputStream;
 
 @Component
 @Slf4j
-public class ApplicationTaskSchedule
+public class ScheduledTasks
 {
 
     private final OfferRepository offerRepository;
     private final QuponRepo quponRepo;
 
-    public ApplicationTaskSchedule( OfferRepository offerRepository, QuponRepo quponRepo ) {
+    public ScheduledTasks( OfferRepository offerRepository, QuponRepo quponRepo ) {
         this.offerRepository = offerRepository;
         this.quponRepo = quponRepo;
     }
