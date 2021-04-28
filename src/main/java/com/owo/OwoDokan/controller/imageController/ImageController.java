@@ -2,18 +2,12 @@ package com.owo.OwoDokan.controller.imageController;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.*;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.ServletContext;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
@@ -21,7 +15,7 @@ import java.util.UUID;
 
 @Slf4j
 @RestController
-public class imageController
+public class ImageController
 {
     //This method is for saving upcoming image in filesystem
     @PostMapping("/imageController/{directory}")
