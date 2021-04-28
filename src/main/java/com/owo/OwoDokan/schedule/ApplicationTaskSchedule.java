@@ -4,10 +4,15 @@ import com.owo.OwoDokan.entity.offers.OffersEntity;
 import com.owo.OwoDokan.entity.qupon.Qupon;
 import com.owo.OwoDokan.repository.offers.OfferRepository;
 import com.owo.OwoDokan.repository.qupon.QuponRepo;
+import com.smattme.MysqlExportService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import java.io.File;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Properties;
 
 @Component
 @Slf4j
@@ -27,6 +32,7 @@ public class ApplicationTaskSchedule
     {
         updateOfferState();
         updateQuponState();
+        schedule();
     }
 
     private void updateQuponState()
@@ -111,4 +117,29 @@ public class ApplicationTaskSchedule
             }
         }
     }
+
+    //Scheduling my-sql database backup
+    public void schedule() {
+
+        Properties properties = new Properties();
+
+        properties.setProperty(MysqlExportService.DB_NAME, "shopKPR");
+        properties.setProperty(MysqlExportService.DB_USERNAME, "root");
+        properties.setProperty(MysqlExportService.DB_PASSWORD, "Rahi-8000");
+        properties.setProperty(MysqlExportService.PRESERVE_GENERATED_ZIP, "true");
+
+        properties.setProperty(MysqlExportService.TEMP_DIR,
+                new File("DbBackUp").getPath());
+
+        MysqlExportService mysqlExportService = new MysqlExportService(properties);
+
+        try {
+            mysqlExportService.export();
+        } catch (IOException | SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 }
