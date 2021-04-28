@@ -6,6 +6,7 @@ import com.owo.OwoDokan.repository.offers.OfferRepository;
 import com.owo.OwoDokan.repository.qupon.QuponRepo;
 import com.smattme.MysqlExportService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import java.io.*;
@@ -19,9 +20,9 @@ import java.util.zip.ZipOutputStream;
 
 @Component
 @Slf4j
+@EnableScheduling
 public class ScheduledTasks
 {
-
     private final OfferRepository offerRepository;
     private final QuponRepo quponRepo;
 
@@ -30,7 +31,7 @@ public class ScheduledTasks
         this.quponRepo = quponRepo;
     }
 
-    @Scheduled(fixedRate = 1000*60*60*5)
+    @Scheduled(cron = "0 1 1, * * *", zone = "Asia/Dacca")
     public void reportCurrentTime()
     {
         updateOfferState();
@@ -123,7 +124,8 @@ public class ScheduledTasks
     }
 
     //Scheduling my-sql database backup
-    public void schedule() {
+    public void schedule()
+    {
 
         Properties properties = new Properties();
 
