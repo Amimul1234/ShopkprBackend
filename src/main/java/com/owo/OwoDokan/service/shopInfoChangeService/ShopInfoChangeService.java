@@ -8,6 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,6 +48,7 @@ public class ShopInfoChangeService {
             String temp2 = shops.getShop_keeper_nid_front_uri().substring(34);
             String temp3 = null;
 
+
             if(shops.getTrade_license_url() != null)
                 temp3 = shops.getTrade_license_url().substring(34);
 
@@ -63,7 +67,9 @@ public class ShopInfoChangeService {
 
             deleteImage(temp1);
             deleteImage(temp2);
-            deleteImage(temp3);
+
+            if(temp3!=null)
+                deleteImage(temp3);
 
         }
         else {
@@ -73,24 +79,10 @@ public class ShopInfoChangeService {
     }
 
     private void deleteImage( String temp1 ) {
-
-        File file = new File(temp1);
-
-        if(file.exists())
-        {
-            try
-            {
-                file.delete();
-            }
-            catch (Exception e)
-            {
-                log.error("Failed to delete image");
-                e.printStackTrace();
-            }
-        }
-        else
-        {
-            log.error("File does not exists, path is: "+temp1);
+        try {
+            Files.deleteIfExists(Path.of(temp1));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -22,13 +22,13 @@ public class ImageController
     public ResponseEntity saveImageInProject(@PathVariable("directory") String directory,
                                              @RequestPart(name = "multipartFile") MultipartFile multipartFile)
     {
-        String filename = UUID.randomUUID().toString() + multipartFile.getOriginalFilename();
+        String filename = UUID.randomUUID() + multipartFile.getOriginalFilename();
 
         try {
 
             File dir = new File("images" + "/" + directory);
 
-            if(!dir.exists())//Make Directory if not exists
+            if(!dir.exists())
                 dir.mkdirs();
 
             Files.copy(multipartFile.getInputStream(), Paths.get(dir+ "/"+ filename), StandardCopyOption.REPLACE_EXISTING);
@@ -41,10 +41,8 @@ public class ImageController
 
         } catch (IOException e) {
             String failed = "Failed to save image, Please try again";
-
             return ResponseEntity.status(HttpStatus.FAILED_DEPENDENCY).body(failed);
         }
-
     }
 
     @GetMapping(value = "/getImageFromServer", produces = MediaType.IMAGE_JPEG_VALUE)
@@ -53,7 +51,9 @@ public class ImageController
         File file = new File(path_of_image);
         try
         {
-            byte[] requested_image = IOUtils.toByteArray(new FileInputStream(file));
+            FileInputStream fileInputStream = new FileInputStream(file);
+            byte[] requested_image = IOUtils.toByteArray(fileInputStream);
+            fileInputStream.close();
             return new ResponseEntity<>(requested_image, HttpStatus.OK);
         } catch (IOException e) {
             e.printStackTrace();
