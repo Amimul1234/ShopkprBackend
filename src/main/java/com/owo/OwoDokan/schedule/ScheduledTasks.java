@@ -150,7 +150,7 @@ public class ScheduledTasks
     public void zipImageDirectory()
     {
         Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd_MM_yyyy");
         String formattedDate = sdf.format(date);
 
         String sourceFile = "images";
@@ -191,6 +191,7 @@ public class ScheduledTasks
             }
             return;
         }
+
         FileInputStream fis = new FileInputStream(fileToZip);
         ZipEntry zipEntry = new ZipEntry(fileName);
         zipOut.putNextEntry(zipEntry);
@@ -203,5 +204,20 @@ public class ScheduledTasks
         fis.close();
     }
 
+    @Scheduled(cron = "0 1 4 * * *", zone = "Asia/Dacca")
+    private void deletePreviousDayBackUp() {
+
+        Date date = new Date(System.currentTimeMillis() - 24*60*60*1000);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd_MM_yyyy");
+        String formattedDate = sdf.format(date);
+
+        log.info(formattedDate);
+
+        File myObj = new File("ImagesBackUp/" + formattedDate + ".zip");
+
+        if(myObj.exists())
+            myObj.delete();
+
+    }
 
 }
