@@ -31,7 +31,7 @@ public class ScheduledTasks
         this.quponRepo = quponRepo;
     }
 
-    @Scheduled(cron = "0 1 1, * * *", zone = "Asia/Dacca")
+    @Scheduled(cron = "0 1 1 * * *", zone = "Asia/Dacca")
     public void reportCurrentTime()
     {
         updateOfferState();
