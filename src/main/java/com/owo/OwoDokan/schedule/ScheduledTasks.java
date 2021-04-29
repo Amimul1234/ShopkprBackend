@@ -31,7 +31,7 @@ public class ScheduledTasks
         this.quponRepo = quponRepo;
     }
 
-    @Scheduled(cron = "0 51 17 * * *", zone = "Asia/Dacca")
+    @Scheduled(cron = "0 1 1 * * *", zone = "Asia/Dacca")
     public void reportCurrentTime()
     {
         updateOfferState();
@@ -213,7 +213,7 @@ public class ScheduledTasks
         fis.close();
     }
 
-    @Scheduled(cron = "0 53 17 * * *", zone = "Asia/Dacca")
+    @Scheduled(cron = "0 1 4 * * *", zone = "Asia/Dacca")
     private void deletePreviousDayBackUp() {
 
         Date date = new Date(System.currentTimeMillis() - 24*60*60*1000);
