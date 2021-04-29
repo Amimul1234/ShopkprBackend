@@ -3,7 +3,6 @@ package com.owo.OwoDokan.service.notification;
 import com.owo.OwoDokan.entity.notification.Notifications;
 import com.owo.OwoDokan.repository.notification.NotificationRepo;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 

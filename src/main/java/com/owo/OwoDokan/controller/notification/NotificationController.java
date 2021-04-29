@@ -3,7 +3,6 @@ package com.owo.OwoDokan.controller.notification;
 import com.owo.OwoDokan.entity.notification.Notifications;
 import com.owo.OwoDokan.service.notification.NotificationService;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
