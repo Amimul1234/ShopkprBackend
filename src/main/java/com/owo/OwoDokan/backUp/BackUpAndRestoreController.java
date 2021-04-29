@@ -9,8 +9,8 @@ import java.util.Date;
 @RestController
 public class BackUpAndRestoreController {
 
-    @RequestMapping(method = RequestMethod.GET, value = "/admin/getImagesBackUp")
-    public StreamingResponseBody stream() throws IOException
+    @GetMapping("/admin/getImagesBackUp")
+    public StreamingResponseBody getImageBackUp() throws IOException
     {
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("dd_MM_yyyy");
@@ -22,7 +22,21 @@ public class BackUpAndRestoreController {
 
     }
 
-    private void readAndWrite(final InputStream is, OutputStream os) throws IOException {
+    @GetMapping("/admin/getDbBackUp")
+    public StreamingResponseBody getDbBackUp() throws IOException
+    {
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd_MM_yyyy");
+        String formattedDate = sdf.format(date);
+
+        final InputStream videoFileStream = new FileInputStream("DbBackUp/" + formattedDate + ".zip");
+
+        return (os) -> readAndWrite(videoFileStream, os);
+
+    }
+
+    private void readAndWrite(final InputStream is, OutputStream os) throws IOException
+    {
 
         byte[] data = new byte[500];
 

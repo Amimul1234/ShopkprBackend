@@ -31,12 +31,12 @@ public class ScheduledTasks
         this.quponRepo = quponRepo;
     }
 
-    @Scheduled(cron = "0 1 1 * * *", zone = "Asia/Dacca")
+    @Scheduled(cron = "0 51 17 * * *", zone = "Asia/Dacca")
     public void reportCurrentTime()
     {
         updateOfferState();
         updateQuponState();
-        schedule();
+        AutomateDbBackUp();
         zipImageDirectory();
     }
 
@@ -123,8 +123,7 @@ public class ScheduledTasks
         }
     }
 
-    //Scheduling my-sql database backup
-    public void schedule()
+    public void AutomateDbBackUp()
     {
 
         Properties properties = new Properties();
@@ -141,6 +140,16 @@ public class ScheduledTasks
 
         try {
             mysqlExportService.export();
+
+            Date date = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd_MM_yyyy");
+            String formattedDate = sdf.format(date);
+
+            File file = mysqlExportService.getGeneratedZipFile();
+            File newfile =new File("DbBackUp/" + formattedDate + ".zip");
+
+            file.renameTo(newfile);
+
         } catch (IOException | SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -204,19 +213,23 @@ public class ScheduledTasks
         fis.close();
     }
 
-    @Scheduled(cron = "0 1 4 * * *", zone = "Asia/Dacca")
+    @Scheduled(cron = "0 53 17 * * *", zone = "Asia/Dacca")
     private void deletePreviousDayBackUp() {
 
         Date date = new Date(System.currentTimeMillis() - 24*60*60*1000);
         SimpleDateFormat sdf = new SimpleDateFormat("dd_MM_yyyy");
         String formattedDate = sdf.format(date);
 
-        log.info(formattedDate);
-
         File myObj = new File("ImagesBackUp/" + formattedDate + ".zip");
+        File dbObj = new File("DbBackUp/" + formattedDate + ".zip");
 
-        if(myObj.exists())
-            myObj.delete();
+        if(myObj.delete()) {
+            log.info("Deleted previous day record image");
+        }
+
+        if(dbObj.delete()) {
+            log.info("Deleted previous day record db");
+        }
 
     }
 
