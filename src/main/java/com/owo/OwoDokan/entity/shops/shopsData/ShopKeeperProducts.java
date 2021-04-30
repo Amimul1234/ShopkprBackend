@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Table
 public class ShopKeeperProducts{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long product_id;
     @Column(nullable = false)
     private String product_name;

@@ -261,4 +261,22 @@ public class ShopKeeperRegistrationService {
             throw new RuntimeException("Shop Keeper with mobile number: "+mobileNumber + " does not exists");
         }
     }
+
+    public void updatePin( UserShopKeeper userShopKeeper ) {
+
+        Optional<ShopKeeperUser> shopKeeperUserOptional = shopKeeperUserRepo.findByMobileNumber(userShopKeeper.getPhone());
+
+        if(shopKeeperUserOptional.isPresent())
+        {
+            ShopKeeperUser shopKeeperUser = shopKeeperUserOptional.get();
+
+            shopKeeperUser.setPin(userShopKeeper.getPin());
+
+            shopKeeperUserRepo.save(shopKeeperUser);
+        }
+        else
+        {
+            throw new RuntimeException("Can not find user with mobile number: "+userShopKeeper.getPhone());
+        }
+    }
 }

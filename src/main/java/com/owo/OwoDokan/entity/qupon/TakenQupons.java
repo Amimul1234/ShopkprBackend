@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Data
 public class TakenQupons {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Long quponId;
 

@@ -17,7 +17,7 @@ import java.util.List;
 @Table(indexes = {@Index(columnList = "mobileNumber", name = "mobileNumber")})
 public class ShopKeeperUser implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long shopKeeperId;
     private String name;
     private String mobileNumber;

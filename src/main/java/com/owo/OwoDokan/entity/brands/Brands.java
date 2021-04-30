@@ -17,7 +17,7 @@ import java.util.List;
 @Table
 public class Brands{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long brandId;
     @Column(nullable = false)
     private String brandName;

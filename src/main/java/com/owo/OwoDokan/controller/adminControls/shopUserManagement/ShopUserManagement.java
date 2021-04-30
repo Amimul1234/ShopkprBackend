@@ -76,4 +76,10 @@ public class ShopUserManagement
     {
         return shopKeeperRegistrationService.checkTakenOrNotTaken(mobileNumber, quponId);
     }
+
+    @PutMapping("/updateShopKeeperPin")
+    public void changeUserPin(@RequestBody UserShopKeeper userShopKeeper)
+    {
+        shopKeeperRegistrationService.updatePin(userShopKeeper);
+    }
 }

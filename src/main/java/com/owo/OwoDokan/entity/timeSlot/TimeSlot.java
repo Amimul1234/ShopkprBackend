@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class TimeSlot
 {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long timeSlotId;
     private String timeSlotString;
 }
