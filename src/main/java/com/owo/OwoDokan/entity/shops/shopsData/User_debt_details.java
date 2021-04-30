@@ -14,7 +14,7 @@ import java.io.Serializable;
 @Table
 public class User_debt_details implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(columnDefinition = "LONGTEXT")
     private String description;

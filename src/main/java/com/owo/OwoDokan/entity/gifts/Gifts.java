@@ -12,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Gifts {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long giftId;
     @Column(nullable = false, columnDefinition = "LONGTEXT")
     private String giftImage;

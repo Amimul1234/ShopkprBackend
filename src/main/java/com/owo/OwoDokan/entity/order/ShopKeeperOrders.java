@@ -18,7 +18,7 @@ import java.util.List;
 public class ShopKeeperOrders
 {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long order_number;
     @Column(columnDefinition = "LONGTEXT")
     private String additional_comments;

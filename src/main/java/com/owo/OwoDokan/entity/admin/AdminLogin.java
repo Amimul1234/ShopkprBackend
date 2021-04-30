@@ -17,7 +17,7 @@ import java.util.List;
 @Table(indexes = {@Index(name = "adminEmail", columnList = "adminEmailAddress")})
 public class AdminLogin {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer adminId;
     private String adminName;
     private String adminEmailAddress;

@@ -11,7 +11,7 @@ import java.util.Date;
 @Table
 public class OffersEntity implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long offerId;
     @Column(nullable = false)
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "MMM dd, yyyy hh:mm:ss a", timezone = "Asia/Dhaka")

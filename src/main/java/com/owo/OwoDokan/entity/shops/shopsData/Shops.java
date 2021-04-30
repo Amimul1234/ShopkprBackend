@@ -20,7 +20,7 @@ import java.util.List;
         @Index(columnList = "shop_owner_mobile", name = "shop_owner_mobile")})
 public class Shops implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long shop_id;
     @Column(nullable = false)
     private Double latitude;

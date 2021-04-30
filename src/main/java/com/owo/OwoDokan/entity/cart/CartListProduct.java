@@ -14,7 +14,7 @@ import java.io.Serializable;
 @Table
 public class CartListProduct implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long productId;
     @Column(nullable = false)
