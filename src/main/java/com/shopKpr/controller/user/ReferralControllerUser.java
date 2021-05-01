@@ -1,18 +1,20 @@
-package com.shopKpr.controller.referralController;
+package com.shopKpr.controller.user;
 
 import com.shopKpr.entity.referral.Referral;
 import com.shopKpr.service.referral.ReferralService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class ReferralController {
+@PreAuthorize("hasRole('ROLE_USER')")
+public class ReferralControllerUser {
 
     private final ReferralService referralService;
 
-    public ReferralController( ReferralService referralService ) {
+    public ReferralControllerUser( ReferralService referralService ) {
         this.referralService = referralService;
     }
 

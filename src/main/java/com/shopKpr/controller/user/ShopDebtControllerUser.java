@@ -1,4 +1,4 @@
-package com.shopKpr.controller.debtController;
+package com.shopKpr.controller.user;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -15,17 +15,19 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 @RestController
-public class ShopDebtController {
+@PreAuthorize("hasRole('ROLE_USER')")
+public class ShopDebtControllerUser {
 
     private final ShopUserDebtService shopUserDebtService;
 
-    public ShopDebtController( ShopUserDebtService shopUserDebtService) {
+    public ShopDebtControllerUser( ShopUserDebtService shopUserDebtService) {
         this.shopUserDebtService = shopUserDebtService;
     }
 

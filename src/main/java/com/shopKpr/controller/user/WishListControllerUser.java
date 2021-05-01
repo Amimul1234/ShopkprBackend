@@ -1,18 +1,19 @@
-package com.shopKpr.controller.userControls;
+package com.shopKpr.controller.user;
 
 import com.shopKpr.service.wishList.WishListService;
 import com.shopKpr.entity.product.OwoProduct;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
-public class WishListController
+@PreAuthorize("hasRole('ROLE_USER')")
+public class WishListControllerUser
 {
     private final WishListService wishListService;
 
-    public WishListController( WishListService wishListService ) {
+    public WishListControllerUser( WishListService wishListService ) {
         this.wishListService = wishListService;
     }
 

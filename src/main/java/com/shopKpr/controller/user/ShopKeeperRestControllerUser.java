@@ -1,4 +1,4 @@
-package com.shopKpr.controller.shopKeeper;
+package com.shopKpr.controller.user;
 
 import com.shopKpr.ModelClass.CartListFromClient;
 import com.shopKpr.entity.brands.Brands;
@@ -15,12 +15,14 @@ import com.shopKpr.service.category.CategoryService;
 import com.shopKpr.service.order.ShopKeeperOrderService;
 import com.shopKpr.service.shopKeeper.registration.RegistrationService;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 import java.util.List;
 
 @RestController
-public class ShopKeeperRestController {
+@PreAuthorize("hasRole('ROLE_USER')")
+public class ShopKeeperRestControllerUser {
 
     private final ProductService productService;
     private final BrandsService brandsService;
@@ -30,9 +32,9 @@ public class ShopKeeperRestController {
     private final CategoryService categoryService;
     private final SubCategoryService subCategoryService;
 
-    public ShopKeeperRestController( ProductService productService, BrandsService brandsService,
-                                     Shop_keeper_cart_service shop_keeper_cartService, ShopKeeperOrderService shop_keeper_orderService,
-                                     RegistrationService registrationService, CategoryService categoryService, SubCategoryService subCategoryService )
+    public ShopKeeperRestControllerUser( ProductService productService, BrandsService brandsService,
+                                         Shop_keeper_cart_service shop_keeper_cartService, ShopKeeperOrderService shop_keeper_orderService,
+                                         RegistrationService registrationService, CategoryService categoryService, SubCategoryService subCategoryService )
     {
         this.productService = productService;
         this.brandsService = brandsService;
