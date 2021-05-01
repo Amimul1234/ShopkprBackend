@@ -2,30 +2,21 @@ package com.shopKpr.controller.admin;
 
 import com.shopKpr.entity.offers.OffersEntity;
 import com.shopKpr.service.offer.OfferService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
-public class OfferManagement
+@PreAuthorize("hasRole('ROLE_ADMIN')")
+@RequestMapping("shopKpr/admin")
+public class BannerControllerAdmin
 {
     private final OfferService offerService;
 
-    public OfferManagement( OfferService offerService ) {
+    public BannerControllerAdmin( OfferService offerService ) {
         this.offerService = offerService;
     }
 
-    @GetMapping("/getAllOffers")
-    public List<OffersEntity> getAllOffers()
-    {
-        return offerService.getAllOffers();
-    }
-
-    @GetMapping("/getBannerForSelectedCategories")
-    public List<String> bannerImages(@RequestParam("categoryIds") List<Long> categoryIds)
-    {
-        return offerService.getOfferImages(categoryIds);
-    }
 
     @PostMapping("/addAnOffer")
     public String addAnOffer(@RequestBody OffersEntity offersEntity)
@@ -33,15 +24,15 @@ public class OfferManagement
         return offerService.addANewOffer(offersEntity);
     }
 
-    @PutMapping("/updateAnOffer")
-    public String updateAnOffer(@RequestBody OffersEntity offersEntity)
-    {
-        return offerService.updateExistenceOffer(offersEntity);
-    }
-
     @DeleteMapping("/deleteOffer")
     public String deleteAnOffer(@RequestParam(name = "offerId") Long offerId)
     {
         return offerService.deleteOffer(offerId);
+    }
+
+    @GetMapping("/getAllOffers")
+    public List<OffersEntity> getAllOffers()
+    {
+        return offerService.getAllOffers();
     }
 }

@@ -1,19 +1,20 @@
-package com.shopKpr.controller.admin;
+package com.shopKpr.controller.user;
 
-import com.shopKpr.service.registration.ShopKeeperRegistrationService;
 import com.shopKpr.entity.qupon.Qupon;
 import com.shopKpr.entity.registerAccount.ShopKeeperUser;
 import com.shopKpr.entity.registerAccount.UserShopKeeper;
+import com.shopKpr.service.registration.ShopKeeperRegistrationService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
+@PreAuthorize("hasRole('ROLE_USER')")
 @RestController
-public class ShopUserManagement
-{
+public class ShopUserControllerUser {
+
     private final ShopKeeperRegistrationService shopKeeperRegistrationService;
 
-    public ShopUserManagement( ShopKeeperRegistrationService shopKeeperRegistrationService ) {
+    public ShopUserControllerUser( ShopKeeperRegistrationService shopKeeperRegistrationService ) {
         this.shopKeeperRegistrationService = shopKeeperRegistrationService;
     }
 
@@ -23,40 +24,10 @@ public class ShopUserManagement
         return shopKeeperRegistrationService.getShopKeeper(mobileNumber);
     }
 
-    @GetMapping("/getAllEnabledShopKeepers")
-    public List<ShopKeeperUser> getAllEnabledShopKeepers( @RequestParam(name = "page") int page)
-    {
-        return shopKeeperRegistrationService.findAllEnabledShopKeeper(page);
-    }
-
-    @GetMapping("/getAllDisabledAccounts")
-    public List<ShopKeeperUser> getAllDisabledAccounts(@RequestParam(name = "page") int page)
-    {
-        return shopKeeperRegistrationService.findAllDisabledShopKeeper(page);
-    }
-
     @PostMapping("/registerShopKeeper")
     public String registerShopKeeper(@RequestBody UserShopKeeper userShopKeeper)
     {
         return shopKeeperRegistrationService.addNewShopKeeper(userShopKeeper);
-    }
-
-    @PutMapping("/disableShopKeeper")
-    public String disableShopKeeper(@RequestParam("mobileNumber") String mobileNumber)
-    {
-        return shopKeeperRegistrationService.disableShopKeeper(mobileNumber);
-    }
-
-    @PutMapping("/enableShopKeeper")
-    public String enableShopKeeper(@RequestParam("mobileNumber") String mobileNumber)
-    {
-        return shopKeeperRegistrationService.enableShopKeeper(mobileNumber);
-    }
-
-    @DeleteMapping("/deleteShopKeeper")
-    public String deleteShopKeeper(@RequestParam("mobileNumber") String mobileNumber)
-    {
-        return shopKeeperRegistrationService.deleteShopKeeper(mobileNumber);
     }
 
     @PutMapping("/updateShopKeeperInfo")

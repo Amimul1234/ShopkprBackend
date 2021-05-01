@@ -1,16 +1,19 @@
-package com.shopKpr.controller.pushNotification;
+package com.shopKpr.controller.admin;
 
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.shopKpr.ModelClass.pushNotification.NotificationData;
 import com.shopKpr.service.pushNotification.PushNotificationService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class pushNotificationController
+@PreAuthorize("hasRole('ROLE_ADMIN')")
+@RequestMapping("shopKpr/admin")
+public class PushNotificationControllerAdmin
 {
     private final PushNotificationService pushNotificationService;
 
-    public pushNotificationController( PushNotificationService pushNotificationService )
+    public PushNotificationControllerAdmin( PushNotificationService pushNotificationService )
     {
         this.pushNotificationService = pushNotificationService;
     }

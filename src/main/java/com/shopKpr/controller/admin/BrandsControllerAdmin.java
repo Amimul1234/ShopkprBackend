@@ -2,15 +2,18 @@ package com.shopKpr.controller.admin;
 
 import com.shopKpr.entity.brands.Brands;
 import com.shopKpr.service.brand.BrandsService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-public class BrandsManagement
+@PreAuthorize("hasRole('ROLE_ADMIN')")
+@RequestMapping("shopKpr/admin")
+public class BrandsControllerAdmin
 {
     private final BrandsService brandsService;
 
-    public BrandsManagement( BrandsService brandsService ) {
+    public BrandsControllerAdmin( BrandsService brandsService ) {
         this.brandsService = brandsService;
     }
 

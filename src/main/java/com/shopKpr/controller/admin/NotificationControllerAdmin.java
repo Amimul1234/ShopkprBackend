@@ -1,16 +1,19 @@
-package com.shopKpr.controller.notification;
+package com.shopKpr.controller.admin;
 
 import com.shopKpr.entity.notification.Notifications;
 import com.shopKpr.service.notification.NotificationService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-public class NotificationController {
+@PreAuthorize("hasRole('ROLE_ADMIN')")
+@RequestMapping("shopKpr/admin")
+public class NotificationControllerAdmin {
 
     private final NotificationService notificationService;
 
-    public NotificationController( NotificationService notificationService ) {
+    public NotificationControllerAdmin( NotificationService notificationService ) {
         this.notificationService = notificationService;
     }
 

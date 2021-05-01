@@ -6,13 +6,10 @@ import com.shopKpr.repository.admin.ShopRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
-import static org.springframework.http.HttpStatus.*;
 
 @Service
 public class ShopAddingService {
@@ -59,17 +56,18 @@ public class ShopAddingService {
         }
     }
 
-    public ResponseEntity getAllShopRegistrationRequests(int pageNumber) {
+    public List<Shops> getAllShopRegistrationRequests(int pageNumber) {
         int pageSize = 10;
         org.springframework.data.domain.Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Optional<List<Shops>> optionalShopsList = shopRepository.getAllShopRegistrationRequests(pageable);
-        return optionalShopsList.map(shops -> ResponseEntity.status(OK).body(shops)).orElseGet(() -> new ResponseEntity(NOT_FOUND));
+
+        return optionalShopsList.orElseThrow(() -> new RuntimeException("Failed to get shops"));
     }
 
-    public ResponseEntity getAllRegisteredShops(int pageNumber) {
+    public List<Shops> getAllRegisteredShops(int pageNumber) {
         int pageSize = 10;
         org.springframework.data.domain.Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Optional<List<Shops>> optionalShopsList = shopRepository.getAllRegisteredShops(pageable);
-        return optionalShopsList.map(shops -> ResponseEntity.status(OK).body(shops)).orElseGet(() -> new ResponseEntity(NOT_FOUND));
+        return optionalShopsList.orElseThrow(() -> new RuntimeException("Failed to get shops"));
     }
 }

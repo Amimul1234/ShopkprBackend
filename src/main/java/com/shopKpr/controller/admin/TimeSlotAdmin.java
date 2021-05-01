@@ -8,11 +8,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/shopKpr/admin")
-public class TimeSlotController
+public class TimeSlotAdmin
 {
     private final TimeSlotService timeSlotService;
 
-    public TimeSlotController( TimeSlotService timeSlotService )
+    public TimeSlotAdmin( TimeSlotService timeSlotService )
     {
         this.timeSlotService = timeSlotService;
     }

@@ -4,16 +4,18 @@ import com.shopKpr.entity.admin.AdminPermissions;
 import com.shopKpr.entity.admin.AdminLogin;
 import com.shopKpr.entity.admin.AdminLoginWrapper;
 import com.shopKpr.service.adminLogin.AdminLoginService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 @RequestMapping("/admin/adminLogin/v1/")
-public class Login {
+public class AdminRegistrationAndLoginControllerAdmin {
 
     private final AdminLoginService adminLoginService;
 
-    public Login(AdminLoginService adminLoginService) {
+    public AdminRegistrationAndLoginControllerAdmin( AdminLoginService adminLoginService) {
         this.adminLoginService = adminLoginService;
     }
 

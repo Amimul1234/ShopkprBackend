@@ -10,8 +10,6 @@ import com.shopKpr.repository.order.Order_repo;
 import com.shopKpr.repository.product.ProductRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
@@ -96,14 +94,8 @@ public class ShopKeeperOrderService
         return order_repo.findByMobileNumber(mobile_number, pageable);
     }
 
-    public ResponseEntity findAllByState(String pending) {
-        try
-        {
-            return new ResponseEntity<>(order_repo.findAllByState(pending), HttpStatus.OK);
-        }catch (Exception e)
-        {
-            return new ResponseEntity<>(HttpStatus.FAILED_DEPENDENCY);
-        }
+    public List<ShopKeeperOrders> findAllByState(String pending) {
+        return order_repo.findAllByState(pending);
     }
 
     @Transactional

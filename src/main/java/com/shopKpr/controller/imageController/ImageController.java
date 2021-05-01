@@ -3,6 +3,7 @@ package com.shopKpr.controller.imageController;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.http.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
@@ -18,6 +19,7 @@ import java.util.UUID;
 public class ImageController
 {
     //This method is for saving upcoming image in filesystem
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @PostMapping("/imageController/{directory}")
     public ResponseEntity saveImageInProject(@PathVariable("directory") String directory,
                                              @RequestPart(name = "multipartFile") MultipartFile multipartFile)
@@ -61,6 +63,8 @@ public class ImageController
         }
     }
 
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @DeleteMapping("/getImageFromServer")
     public ResponseEntity<String> deleteImage(@RequestParam(name = "path_of_image") String path_of_image)
     {

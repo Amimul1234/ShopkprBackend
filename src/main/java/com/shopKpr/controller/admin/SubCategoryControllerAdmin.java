@@ -2,52 +2,46 @@ package com.shopKpr.controller.admin;
 
 import com.shopKpr.entity.category.SubCategoryEntity;
 import com.shopKpr.service.category.SubCategoryService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-public class SubCategoryManagement
+@RequestMapping("shopKpr/admin")
+public class SubCategoryControllerAdmin
 {
     private final SubCategoryService subCategoryService;
 
-    public SubCategoryManagement( SubCategoryService subCategoryService ) {
+    public SubCategoryControllerAdmin( SubCategoryService subCategoryService ) {
         this.subCategoryService = subCategoryService;
     }
 
-    @GetMapping("/getAllSubCategoriesForCategory")
-    public List<String> getAllSubCategoriesForCategory(@RequestParam("categoryId") Long categoryId)
-    {
-        return subCategoryService.getALlSubCategories(categoryId);
-    }
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/addNewSubCategory")
-    public String addNewSubCategory( @RequestParam(name = "categoryId") Long categoryId, @RequestBody SubCategoryEntity subCategoryEntity)
+    public String addNewSubCategory( @RequestParam(name = "categoryId") Long categoryId,
+                                     @RequestBody SubCategoryEntity subCategoryEntity)
     {
         return subCategoryService.addNewSubCategory(categoryId, subCategoryEntity);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/getAllSubCategories")
     public List<SubCategoryEntity> getAllSubCategories( @RequestParam(name = "categoryId") Long categoryId)
     {
         return subCategoryService.getAllSubCategories(categoryId);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/updateSubCategory")
     public String updateSubCategory(@RequestParam(name = "categoryId") Long categoryId, @RequestBody SubCategoryEntity subCategoryEntity)
     {
         return subCategoryService.updateSubCategory(categoryId, subCategoryEntity);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/deleteSubCategory")
     public String deleteSubCategory(@RequestParam(name = "subCategoryId") Long subCategoryId)
     {
         return subCategoryService.deleteSubCategory(subCategoryId);
     }
-
-    @GetMapping("/getSubCategoriesPaging")
-    public List<SubCategoryEntity> getSubCategoriesPaging(@RequestParam("page") int page, @RequestParam("categoryIds") List<Long> categoryIds)
-    {
-        return subCategoryService.getAllSubCategoriesPaging(categoryIds, page - 1);
-    }
-
 }

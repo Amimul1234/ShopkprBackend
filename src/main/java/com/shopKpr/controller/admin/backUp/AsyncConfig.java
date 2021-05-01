@@ -1,4 +1,4 @@
-package com.shopKpr.backUp;
+package com.shopKpr.controller.admin.backUp;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

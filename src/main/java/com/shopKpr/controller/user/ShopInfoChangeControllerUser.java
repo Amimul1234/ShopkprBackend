@@ -1,19 +1,19 @@
-package com.shopKpr.controller.shopInfoChangeController;
+package com.shopKpr.controller.user;
 
 import com.shopKpr.entity.shopInfoChange.ChangeShopInfo;
 import com.shopKpr.service.shopInfoChangeService.ShopInfoChangeService;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
-public class ShopInfoChangeController {
+@PreAuthorize("hasRole('ROLE_USER')")
+public class ShopInfoChangeControllerUser {
+
     private final ShopInfoChangeService shopInfoChangeService;
 
-    public ShopInfoChangeController( ShopInfoChangeService shopInfoChangeService ) {
+    public ShopInfoChangeControllerUser( ShopInfoChangeService shopInfoChangeService ) {
         this.shopInfoChangeService = shopInfoChangeService;
     }
 
@@ -21,17 +21,5 @@ public class ShopInfoChangeController {
     public void makeShopInfoChangeRequest(@RequestBody ChangeShopInfo changeShopInfo)
     {
         shopInfoChangeService.makeChangeRequest(changeShopInfo);
-    }
-
-    @PostMapping("/approveShopInfoChange")
-    public void approveShopInfoChange(@RequestBody ChangeShopInfo changeShopInfo)
-    {
-        shopInfoChangeService.approveShopInfoChange(changeShopInfo);
-    }
-
-    @GetMapping("/getAllChangeRequests")
-    public List<ChangeShopInfo> getAllShopChangeRequests()
-    {
-        return shopInfoChangeService.getAllShopInfoChangeRequests();
     }
 }

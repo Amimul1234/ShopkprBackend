@@ -1,17 +1,20 @@
-package com.shopKpr.controller.quponController;
+package com.shopKpr.controller.admin;
 
 import com.shopKpr.entity.qupon.Qupon;
 import com.shopKpr.service.qupon.QuponService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-public class QuponController
+@PreAuthorize("hasRole('ROLE_ADMIN')")
+@RequestMapping("shopKpr/admin")
+public class QuponControllerAdmin
 {
     private final QuponService quponService;
 
-    public QuponController( QuponService quponService ) {
+    public QuponControllerAdmin( QuponService quponService ) {
         this.quponService = quponService;
     }
 
@@ -31,11 +34,5 @@ public class QuponController
     public void deleteQupon(@RequestParam("quponId") Long quponId)
     {
         quponService.deleteQupon(quponId);
-    }
-
-    @GetMapping("/getAQupon")
-    public Qupon getAQupon(@RequestParam("quponId") Long quponId)
-    {
-        return quponService.getQuponById(quponId);
     }
 }
