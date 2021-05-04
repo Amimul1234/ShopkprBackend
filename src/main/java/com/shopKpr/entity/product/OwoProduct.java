@@ -37,6 +37,8 @@ public class OwoProduct implements Serializable {
     private String productCreationDate;
     @Column(nullable = false)
     private String productCreationTime;
+    @Column(nullable = false)
+    private String productExpireDate;
     @Column(nullable = false, columnDefinition = "LONGTEXT")
     private String productImage;
 

@@ -19,7 +19,7 @@ public class TimeSlotAdmin
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/addNewTimeSlot")
-    public void addNewTimeSlot( @RequestBody TimeSlot timeSlot )
+    public void addNewTimeSlot( @RequestBody TimeSlot timeSlot)
     {
          timeSlotService.addNewTimeSlot(timeSlot);
     }

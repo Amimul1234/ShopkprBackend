@@ -50,6 +50,7 @@ public class ProductService {
             owoProduct.setProductCreationDate(product.getProductCreationDate());
             owoProduct.setProductCreationTime(product.getProductCreationTime());
             owoProduct.setProductImage(product.getProductImage());
+            owoProduct.setProductExpireDate(product.getProductExpireDate());
 
             try
             {

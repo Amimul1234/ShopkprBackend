@@ -38,7 +38,9 @@ public interface ProductRepository extends JpaRepository<OwoProduct, Long> {
             "(SELECT e.sub_category_id FROM sub_category_entity e WHERE e.sub_category_name IN " +
             "(:subCategories)) and MATCH(s.product_name) AGAINST(:product_name IN BOOLEAN MODE) ORDER BY (product_price - product_discount) DESC",
             nativeQuery = true)
-    Optional<List<OwoProduct>> findProductBySubCategoriesDesc(@Param("product_name") String s, @Param("subCategories") List<String> subCategories, Pageable pageable );
+    Optional<List<OwoProduct>> findProductBySubCategoriesDesc(@Param("product_name") String s,
+                                                              @Param("subCategories") List<String> subCategories,
+                                                              Pageable pageable );
 
 
     @Query(value = "SELECT * FROM owo_product s WHERE s.product_sub_category_id IN " +
