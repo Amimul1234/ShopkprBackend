@@ -14,7 +14,7 @@ import java.util.Date;
 @Data
 public class Qupon {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long quponId;
     private double discount;
     @Column(nullable = false)

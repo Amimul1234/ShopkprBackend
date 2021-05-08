@@ -17,7 +17,7 @@ import java.io.Serializable;
 @Table(indexes = { @Index(name = "productIndex", columnList = "productCategoryId, productSubCategoryId")})
 public class OwoProduct implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
     @Column(nullable = false)
     private String productName;

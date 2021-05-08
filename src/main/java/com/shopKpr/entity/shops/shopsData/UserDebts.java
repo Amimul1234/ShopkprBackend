@@ -17,7 +17,7 @@ import java.util.List;
 @Table
 public class UserDebts implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long userId;
     private String userName;
     private String userMobileNumber;

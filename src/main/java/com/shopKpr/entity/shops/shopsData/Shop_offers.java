@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Table
 public class Shop_offers {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long offer_id;
     @Column(nullable = false, columnDefinition = "LONGTEXT")
     private String offer_imag_uri;
